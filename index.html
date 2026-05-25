@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>YCH Commishes Bot</title>
+    <meta
+      name="description"
+      content="A Telegram bot for artists who manage YCH Commishes auctions, publishing, bid tracking, and social posting."
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f3ed;
+        --ink: #1e252b;
+        --muted: #66717b;
+        --panel: #ffffff;
+        --line: #ded7cb;
+        --accent: #0f8c76;
+        --accent-dark: #0b6254;
+        --warm: #f2b35d;
+        --blue: #356f9f;
+        --shadow: 0 20px 50px rgba(31, 37, 43, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(242, 179, 93, 0.28), transparent 34rem),
+          linear-gradient(180deg, #fbfaf7 0%, var(--bg) 100%);
+        color: var(--ink);
+        line-height: 1.55;
+      }
+
+      a {
+        color: var(--accent-dark);
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 22px 0;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+
+      .mark {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border: 1px solid rgba(15, 140, 118, 0.25);
+        border-radius: 8px;
+        background: #ffffff;
+        box-shadow: 0 8px 20px rgba(15, 140, 118, 0.12);
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      nav a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+        gap: 44px;
+        align-items: center;
+        min-height: 620px;
+        padding: 54px 0 70px;
+      }
+
+      .eyebrow {
+        margin: 0 0 14px;
+        color: var(--accent-dark);
+        font-weight: 800;
+        text-transform: uppercase;
+        font-size: 0.82rem;
+      }
+
+      h1 {
+        max-width: 780px;
+        margin: 0;
+        font-size: clamp(2.65rem, 7vw, 5.8rem);
+        line-height: 0.96;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 650px;
+        margin: 26px 0 0;
+        color: #3c4852;
+        font-size: 1.18rem;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 34px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 0 18px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        background: var(--accent);
+        color: #ffffff;
+        font-weight: 750;
+        text-decoration: none;
+      }
+
+      .button.secondary {
+        border-color: var(--line);
+        background: #ffffff;
+        color: var(--ink);
+      }
+
+      .phone {
+        border: 1px solid #24313d;
+        border-radius: 30px;
+        background: #182431;
+        padding: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .screen {
+        min-height: 540px;
+        overflow: hidden;
+        border-radius: 22px;
+        background: #0f1924;
+        color: #e8f0f6;
+      }
+
+      .chat-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background: #142233;
+      }
+
+      .avatar {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      .chat-head strong,
+      .chat-head span {
+        display: block;
+      }
+
+      .chat-head span {
+        color: #94a6b7;
+        font-size: 0.82rem;
+      }
+
+      .messages {
+        display: grid;
+        gap: 12px;
+        padding: 16px;
+      }
+
+      .bubble {
+        border-radius: 8px;
+        background: #203143;
+        padding: 14px;
+        color: #eaf3fb;
+      }
+
+      .bubble.user {
+        justify-self: end;
+        max-width: 82%;
+        background: #2f638f;
+      }
+
+      .bubble small {
+        display: block;
+        margin-top: 8px;
+        color: #aab8c5;
+      }
+
+      .preview {
+        display: grid;
+        gap: 9px;
+        margin-top: 10px;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 10px;
+        font-size: 0.9rem;
+      }
+
+      .status {
+        color: #85e3bd;
+        font-weight: 750;
+      }
+
+      section {
+        padding: 72px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .section-head {
+        max-width: 720px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .section-head p {
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-top: 30px;
+      }
+
+      .card {
+        min-height: 210px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 22px;
+      }
+
+      .card-icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border-radius: 8px;
+        background: #edf7f4;
+      }
+
+      .card h3 {
+        margin: 18px 0 8px;
+        font-size: 1.15rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 30px;
+      }
+
+      .step {
+        border-left: 4px solid var(--accent);
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 18px;
+      }
+
+      .step strong {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .step span {
+        color: var(--muted);
+      }
+
+      .note {
+        margin-top: 30px;
+        border: 1px solid rgba(53, 111, 159, 0.22);
+        border-radius: 8px;
+        background: #eef5fb;
+        padding: 20px;
+        color: #29465f;
+      }
+
+      footer {
+        padding: 34px 0 46px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 860px) {
+        header {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        nav {
+          flex-wrap: wrap;
+        }
+
+        .hero,
+        .grid,
+        .flow {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          min-height: 0;
+          padding-top: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <div class="brand">
+          <span class="mark">🎨</span>
+          <span>YCH Commishes Bot</span>
+        </div>
+        <nav aria-label="Main navigation">
+          <a href="#features">Features</a>
+          <a href="#workflow">Workflow</a>
+          <a href="#about">About</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="hero-title">
+          <div>
+            <p class="eyebrow">Telegram assistant for artists</p>
+            <h1 id="hero-title">YCH auction posting without the busywork.</h1>
+            <p class="lead">
+              YCH Commishes Bot helps artists prepare auction posts, track bid links, and
+              publish artwork from Telegram to connected platforms with one clear preview before
+              publishing.
+            </p>
+            <div class="actions">
+              <a class="button" href="https://github.com/eugenedefox/Ych_bot">View on GitHub</a>
+              <a class="button secondary" href="#features">What it does</a>
+            </div>
+          </div>
+
+          <aside class="phone" aria-label="Telegram bot preview">
+            <div class="screen">
+              <div class="chat-head">
+                <span class="avatar">🤖</span>
+                <div>
+                  <strong>YCH Commishes Bot</strong>
+                  <span>multi-upload preview</span>
+                </div>
+              </div>
+              <div class="messages">
+                <div class="bubble user">/multi_upload</div>
+                <div class="bubble">
+                  ✅ Artwork loaded
+                  <div class="preview">
+                    <div class="row"><span>Title</span><strong>Adoptable YCH</strong></div>
+                    <div class="row"><span>Auction link</span><strong class="status">added</strong></div>
+                    <div class="row"><span>Tags</span><strong>ych, commission, adopt</strong></div>
+                    <div class="row"><span>Targets</span><strong>Telegram, Tumblr, Bluesky</strong></div>
+                  </div>
+                  <small>Review, edit, then publish.</small>
+                </div>
+                <div class="bubble user">🚀 Publish</div>
+                <div class="bubble">
+                  Posted successfully.
+                  <small>Bid tracking and platform links stay organized.</small>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section id="features" aria-labelledby="features-title">
+          <div class="section-head">
+            <h2 id="features-title">Built for YCH auction work</h2>
+            <p>
+              The bot is created to reduce repetitive posting tasks for artists who sell YCH
+              slots, adopts, commissions, and auction-based artwork.
+            </p>
+          </div>
+
+          <div class="grid">
+            <article class="card">
+              <span class="card-icon">🖼️</span>
+              <h3>Upload and preview</h3>
+              <p>
+                Send artwork to Telegram, check the title, description, tags, auction link, and
+                final post text before publishing.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card-icon">🔗</span>
+              <h3>Auction links</h3>
+              <p>
+                Add a YCH auction link manually or select an active tracked auction so every post
+                points users to the right bidding page.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card-icon">🏷️</span>
+              <h3>Tags and platforms</h3>
+              <p>
+                Prepare tags once and publish to connected channels or socials with formatting
+                that fits each platform.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card-icon">🔔</span>
+              <h3>Bid tracking</h3>
+              <p>
+                Track active auctions and keep a practical record of current bid status for posts
+                that need updates.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card-icon">🧩</span>
+              <h3>Post templates</h3>
+              <p>
+                Use simple templates for descriptions, links, public bid notices, and repeated
+                auction text.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card-icon">🛡️</span>
+              <h3>Publishing controls</h3>
+              <p>
+                Choose SFW or NSFW, mark AI usage, toggle targets, and review everything before
+                sending the final post.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="workflow" aria-labelledby="workflow-title">
+          <div class="section-head">
+            <h2 id="workflow-title">Simple publishing flow</h2>
+            <p>
+              The project focuses on a clear Telegram workflow for artists who want fewer tabs,
+              fewer copy-paste mistakes, and more consistent auction posts.
+            </p>
+          </div>
+
+          <div class="flow">
+            <div class="step">
+              <strong>1. Upload art</strong>
+              <span>Send an image to the bot and let it prepare a draft.</span>
+            </div>
+            <div class="step">
+              <strong>2. Edit details</strong>
+              <span>Adjust title, text, tags, template, and auction link.</span>
+            </div>
+            <div class="step">
+              <strong>3. Pick targets</strong>
+              <span>Enable only the platforms needed for this post.</span>
+            </div>
+            <div class="step">
+              <strong>4. Publish</strong>
+              <span>Send the final post after checking the preview.</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="about" aria-labelledby="about-title">
+          <div class="section-head">
+            <h2 id="about-title">Why it exists</h2>
+            <p>
+              YCH Commishes Bot is made as a practical helper for managing artwork publishing and
+              auction communication. It is intended to support artists with repetitive posting,
+              bid-link organization, and consistent descriptions across platforms.
+            </p>
+          </div>
+          <div class="note">
+            This project is an independent automation tool. It is not an official Tumblr,
+            DeviantArt, Bluesky, Discord, Telegram, or YCH Commishes product.
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span>YCH Commishes Bot · Built for cleaner auction publishing workflows.</span>
+      </footer>
+    </div>
+  </body>
+</html>
