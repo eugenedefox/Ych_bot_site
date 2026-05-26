@@ -70,9 +70,20 @@
         height: 42px;
         place-items: center;
         border: 1px solid rgba(15, 140, 118, 0.25);
-        border-radius: 8px;
+        border-radius: 50%;
         background: #ffffff;
         box-shadow: 0 8px 20px rgba(15, 140, 118, 0.12);
+        overflow: hidden;
+      }
+
+      .mark img,
+      .avatar img,
+      .logo-art img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.18);
       }
 
       nav {
@@ -179,6 +190,19 @@
         place-items: center;
         border-radius: 50%;
         background: var(--accent);
+        overflow: hidden;
+      }
+
+      .logo-art {
+        display: grid;
+        width: 118px;
+        height: 118px;
+        place-items: center;
+        margin: 20px auto 6px;
+        overflow: hidden;
+        border-radius: 50%;
+        background: #0f1924;
+        box-shadow: 0 0 34px rgba(61, 209, 255, 0.2);
       }
 
       .chat-head strong,
@@ -388,7 +412,9 @@
     <div class="page">
       <header>
         <div class="brand">
-          <span class="mark">🎨</span>
+          <span class="mark">
+            <img src="assets/bot-logo.jpg" alt="" />
+          </span>
           <span>YCH Commishes Bot</span>
         </div>
         <nav aria-label="Main navigation">
@@ -419,13 +445,18 @@
           <aside class="phone" aria-label="Telegram bot preview">
             <div class="screen">
               <div class="chat-head">
-                <span class="avatar">🤖</span>
+                <span class="avatar">
+                  <img src="assets/bot-logo.jpg" alt="" />
+                </span>
                 <div>
                   <strong>YCH Commishes Bot</strong>
                   <span>multi-upload preview</span>
                 </div>
               </div>
               <div class="messages">
+                <div class="logo-art">
+                  <img src="assets/bot-logo.jpg" alt="YCH Commishes Bot logo" />
+                </div>
                 <div class="bubble user">/multi_upload</div>
                 <div class="bubble">
                   ✅ Artwork loaded
