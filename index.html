@@ -326,6 +326,34 @@
         color: #29465f;
       }
 
+      .policy {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 30px;
+      }
+
+      .policy-block {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 22px;
+      }
+
+      .policy-block h3 {
+        margin: 0 0 12px;
+      }
+
+      .policy-block ul {
+        margin: 0;
+        padding-left: 20px;
+        color: var(--muted);
+      }
+
+      .policy-block li + li {
+        margin-top: 8px;
+      }
+
       footer {
         padding: 34px 0 46px;
         color: var(--muted);
@@ -344,7 +372,8 @@
 
         .hero,
         .grid,
-        .flow {
+        .flow,
+        .policy {
           grid-template-columns: 1fr;
         }
 
@@ -365,6 +394,8 @@
         <nav aria-label="Main navigation">
           <a href="#features">Features</a>
           <a href="#workflow">Workflow</a>
+          <a href="#instagram-api">Instagram API</a>
+          <a href="#privacy">Privacy</a>
           <a href="#about">About</a>
         </nav>
       </header>
@@ -402,7 +433,7 @@
                     <div class="row"><span>Title</span><strong>Adoptable YCH</strong></div>
                     <div class="row"><span>Auction link</span><strong class="status">added</strong></div>
                     <div class="row"><span>Tags</span><strong>ych, commission, adopt</strong></div>
-                    <div class="row"><span>Targets</span><strong>Telegram, Tumblr, Bluesky</strong></div>
+                    <div class="row"><span>Targets</span><strong>Instagram, Telegram, Tumblr</strong></div>
                   </div>
                   <small>Review, edit, then publish.</small>
                 </div>
@@ -506,6 +537,84 @@
           </div>
         </section>
 
+        <section id="instagram-api" aria-labelledby="instagram-api-title">
+          <div class="section-head">
+            <h2 id="instagram-api-title">Instagram API use case</h2>
+            <p>
+              The bot uses Instagram API access only to let an artist publish artwork to an
+              Instagram Professional account that the artist explicitly connects.
+            </p>
+          </div>
+
+          <div class="policy">
+            <article class="policy-block">
+              <h3>What the integration does</h3>
+              <ul>
+                <li>Connects a user's own Instagram Professional account through OAuth.</li>
+                <li>Creates an image media container from a public temporary image URL.</li>
+                <li>Publishes the post only after the user presses Publish in Telegram.</li>
+                <li>Adds the caption, tags, and auction text prepared by the user.</li>
+              </ul>
+            </article>
+            <article class="policy-block">
+              <h3>Requested permissions</h3>
+              <ul>
+                <li><strong>instagram_business_basic</strong> identifies the connected account.</li>
+                <li><strong>instagram_business_content_publish</strong> publishes artwork posts.</li>
+                <li>The bot does not use Instagram messages, comments, ads, or analytics.</li>
+                <li>The bot does not publish automatically or on a schedule without user action.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section id="privacy" aria-labelledby="privacy-title">
+          <div class="section-head">
+            <h2 id="privacy-title">Privacy policy</h2>
+            <p>
+              YCH Commishes Bot stores only the information needed to provide publishing,
+              auction tracking, and account connection features.
+            </p>
+          </div>
+
+          <div class="policy">
+            <article class="policy-block">
+              <h3>Data the bot may store</h3>
+              <ul>
+                <li>Telegram user ID and username for bot access and settings.</li>
+                <li>Connected platform tokens for services the user chooses to connect.</li>
+                <li>Publishing settings, templates, tags, auction links, and channel IDs.</li>
+                <li>Temporary media files or public media URLs required for publishing.</li>
+              </ul>
+            </article>
+            <article class="policy-block">
+              <h3>How data is used</h3>
+              <ul>
+                <li>To publish artwork only after the user confirms the post.</li>
+                <li>To remember the user's connected platforms and posting preferences.</li>
+                <li>To track YCH auction links and notify about bid-related updates.</li>
+                <li>Data is not sold, rented, used for advertising, or used for profiling.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section id="data-deletion" aria-labelledby="data-deletion-title">
+          <div class="section-head">
+            <h2 id="data-deletion-title">Data deletion</h2>
+            <p>
+              Users can disconnect integrations directly in Telegram. For full deletion, contact
+              the bot administrator with the Telegram username or Telegram user ID.
+            </p>
+          </div>
+          <div class="note">
+            Instagram data deletion: send <strong>/disconnect_instagram</strong> to remove the
+            stored Instagram token from the bot. To request full account data deletion, email
+            <a href="mailto:eugenedefox@gmail.com">eugenedefox@gmail.com</a> with your Telegram
+            username and the request "Delete my YCH Commishes Bot data".
+          </div>
+        </section>
+
         <section id="about" aria-labelledby="about-title">
           <div class="section-head">
             <h2 id="about-title">Why it exists</h2>
@@ -517,7 +626,7 @@
           </div>
           <div class="note">
             This project is an independent automation tool. It is not an official Tumblr,
-            DeviantArt, Bluesky, Discord, Telegram, or YCH Commishes product.
+            Instagram, DeviantArt, Bluesky, Discord, Telegram, or YCH Commishes product.
           </div>
         </section>
       </main>
