@@ -274,7 +274,7 @@
       .phone {
         position: relative;
         justify-self: end;
-        width: min(100%, 408px);
+        width: min(100%, 390px);
         border: 1px solid rgba(178, 184, 194, 0.28);
         border-radius: 72px;
         background:
@@ -334,10 +334,10 @@
       .screen {
         position: relative;
         z-index: 1;
-        min-height: 720px;
+        min-height: 758px;
         overflow: hidden;
         border-radius: 61px;
-        padding-top: 62px;
+        padding: 62px 0 10px;
         background:
           radial-gradient(circle at 50% 16%, rgba(20, 184, 166, 0.07), transparent 31%),
           linear-gradient(180deg, #0c111a 0%, #080c13 100%);
@@ -368,8 +368,8 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        margin: 0 14px 12px;
-        padding: 14px 16px;
+        margin: 0 14px 10px;
+        padding: 12px 15px;
         border: 1px solid rgba(255, 255, 255, 0.07);
         border-radius: 28px;
         background: rgba(13, 18, 28, 0.88);
@@ -388,10 +388,10 @@
 
       .logo-art {
         display: grid;
-        width: 110px;
-        height: 110px;
+        width: 92px;
+        height: 92px;
         place-items: center;
-        margin: 18px auto 8px;
+        margin: 10px auto 4px;
         overflow: hidden;
         border-radius: 50%;
         background: #111827;
@@ -411,16 +411,16 @@
 
       .messages {
         display: grid;
-        gap: 10px;
-        padding: 14px;
+        gap: 8px;
+        padding: 12px 14px 14px;
       }
 
       .bubble {
         border-radius: 12px;
         background: #17202d;
-        padding: 14px 16px;
+        padding: 12px 15px;
         color: var(--ink);
-        font-size: 0.9rem;
+        font-size: 0.87rem;
         border: 1px solid rgba(255, 255, 255, 0.08);
       }
 
@@ -434,9 +434,9 @@
 
       .bubble small {
         display: block;
-        margin-top: 8px;
+        margin-top: 7px;
         color: var(--muted);
-        font-size: 0.82rem;
+        font-size: 0.78rem;
       }
 
       .preview {
@@ -453,8 +453,14 @@
         gap: 10px;
         border-radius: 8px;
         background: rgba(8, 12, 19, 0.58);
-        padding: 9px 12px;
-        font-size: 0.85rem;
+        padding: 8px 11px;
+        font-size: 0.8rem;
+      }
+
+      .row strong {
+        min-width: 0;
+        text-align: right;
+        overflow-wrap: anywhere;
       }
 
       .row span {
@@ -770,7 +776,27 @@
         }
 
         .phone {
-          max-width: 400px;
+          justify-self: center;
+          width: min(100%, 360px);
+        }
+
+        .screen {
+          min-height: 0;
+          height: auto;
+          overflow: visible;
+        }
+
+        .phone-control.power {
+          height: 78px;
+        }
+
+        .logo-art {
+          width: 86px;
+          height: 86px;
+        }
+
+        .bubble.success {
+          display: none;
         }
 
         footer {
@@ -780,10 +806,111 @@
         }
       }
 
-      @media (max-width: 480px) {
+      @media (max-width: 600px) {
+        .page {
+          width: min(1200px, calc(100% - 24px));
+        }
+
+        header {
+          align-items: center;
+        }
+
+        nav {
+          width: 100%;
+          justify-content: center;
+        }
+
         nav a {
-          padding: 6px 10px;
-          font-size: 0.85rem;
+          padding: 6px 8px;
+          font-size: 0.78rem;
+        }
+
+        .hero {
+          gap: 30px;
+          padding: 26px 0 48px;
+        }
+
+        h1 {
+          max-width: 11.5ch;
+          font-size: 2.25rem;
+        }
+
+        .lead {
+          font-size: 0.96rem;
+          max-width: none;
+        }
+
+        .actions {
+          flex-direction: column;
+          gap: 10px;
+          max-width: 100%;
+        }
+
+        .button {
+          width: 100%;
+          min-height: 46px;
+          padding: 0 18px;
+          font-size: 0.8rem;
+        }
+
+        .phone {
+          width: min(100%, 304px);
+          border-radius: 56px;
+          padding: 9px;
+        }
+
+        .screen {
+          border-radius: 47px;
+          padding-top: 56px;
+        }
+
+        .screen::before {
+          top: 18px;
+          width: 96px;
+          height: 22px;
+        }
+
+        .chat-head {
+          margin: 0 10px 8px;
+          padding: 11px 12px;
+          border-radius: 22px;
+        }
+
+        .avatar {
+          width: 34px;
+          height: 34px;
+        }
+
+        .logo-art {
+          width: 78px;
+          height: 78px;
+          margin-top: 8px;
+        }
+
+        .messages {
+          gap: 7px;
+          padding: 10px;
+        }
+
+        .bubble {
+          padding: 11px 12px;
+          font-size: 0.8rem;
+        }
+
+        .bubble.user {
+          max-width: 76%;
+        }
+
+        .row {
+          display: grid;
+          grid-template-columns: minmax(72px, auto) minmax(0, 1fr);
+          align-items: center;
+          padding: 8px 10px;
+          font-size: 0.72rem;
+        }
+
+        .row strong {
+          line-height: 1.35;
         }
       }
     </style>
@@ -854,7 +981,7 @@
                   <small>Review, edit, then publish.</small>
                 </div>
                 <div class="bubble user">🚀 Publish</div>
-                <div class="bubble">
+                <div class="bubble success">
                   Posted successfully.
                   <small>Bid tracking and platform links stay organized.</small>
                 </div>
