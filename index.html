@@ -572,21 +572,40 @@
 
       .beam-lines path {
         fill: none;
-        stroke: rgba(161, 245, 232, 0.22);
-        stroke-width: 1.5;
         stroke-linecap: round;
-        stroke-dasharray: 6 12;
-        animation: beam-flow 6s linear infinite;
       }
 
-      .beam-lines path:nth-child(2n) {
-        animation-direction: reverse;
-        stroke: rgba(56, 189, 248, 0.2);
+      .beam-lines .beam-base {
+        stroke: rgba(161, 245, 232, 0.2);
+        stroke-width: 1.35;
       }
 
-      @keyframes beam-flow {
+      .beam-lines .beam-ray {
+        stroke: #22d3ee;
+        stroke-width: 2.8;
+        stroke-linecap: round;
+        stroke-dasharray: 42 620;
+        stroke-dashoffset: 0;
+        opacity: 0.92;
+        filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.72));
+        animation: beam-ray 1.55s linear infinite;
+      }
+
+      .beam-lines .beam-ray:nth-of-type(3n) {
+        stroke: #14b8a6;
+        filter: drop-shadow(0 0 6px rgba(20, 184, 166, 0.72));
+        animation-delay: -0.3s;
+      }
+
+      .beam-lines .beam-ray:nth-of-type(4n) {
+        stroke: #f97316;
+        filter: drop-shadow(0 0 6px rgba(249, 115, 22, 0.64));
+        animation-delay: -0.75s;
+      }
+
+      @keyframes beam-ray {
         to {
-          stroke-dashoffset: -90;
+          stroke-dashoffset: -662;
         }
       }
 
@@ -618,52 +637,24 @@
       .node-icon {
         width: 54px;
         height: 54px;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        background: #f8fafc;
-        color: #020617;
-        font-family: var(--font-mono);
-        font-weight: 800;
-        font-size: 0.86rem;
+        overflow: visible;
       }
 
-      .node-instagram .node-icon {
-        color: #fff;
-        background: radial-gradient(circle at 30% 105%, #feda75 0 14%, #fa7e1e 25%, #d62976 48%, #962fbf 72%, #4f5bd5 100%);
-      }
-
-      .node-telegram .node-icon {
-        color: #fff;
-        background: linear-gradient(135deg, #37aee2, #1e96c8);
-      }
-
-      .node-tumblr .node-icon {
-        color: #fff;
-        background: #001935;
-      }
-
-      .node-deviantart .node-icon {
-        color: #05110f;
-        background: #05cc47;
-      }
-
-      .node-bluesky .node-icon {
-        color: #fff;
-        background: linear-gradient(135deg, #1185fe, #64d2ff);
-      }
-
-      .node-discord .node-icon {
-        color: #fff;
-        background: #5865f2;
+      .node-icon img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
       }
 
       .bot-node {
         top: 50%;
         left: 50%;
-        width: 138px;
-        min-height: 138px;
-        padding: 14px;
+        width: 112px;
+        min-height: 112px;
+        padding: 12px;
         border: 1px solid rgba(20, 184, 166, 0.28);
-        border-radius: 32px;
+        border-radius: 34px;
         background: rgba(9, 13, 20, 0.9);
         transform: translate(-50%, -50%);
         box-shadow:
@@ -672,10 +663,11 @@
       }
 
       .bot-node-icon {
-        width: 72px;
-        height: 72px;
+        width: 84px;
+        height: 84px;
         overflow: hidden;
         border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 28px;
       }
 
       .bot-node-icon img {
@@ -684,19 +676,6 @@
         height: 100%;
         object-fit: cover;
         transform: scale(1.16);
-      }
-
-      .bot-node strong {
-        margin-top: 10px;
-        font-family: var(--font-mono);
-        color: var(--ink);
-        line-height: 1.15;
-      }
-
-      .bot-node span {
-        margin-top: 4px;
-        color: var(--muted);
-        font-size: 0.76rem;
       }
 
       .node-instagram { top: 42px; left: 54px; }
@@ -1150,9 +1129,9 @@
         .bot-node {
           grid-column: 1 / -1;
           justify-self: center;
-          width: min(100%, 220px);
+          width: 116px;
           min-height: 0;
-          padding: 16px;
+          padding: 12px;
           order: -1;
         }
 
@@ -1267,45 +1246,49 @@
 
           <div class="beam-map" aria-label="Connected social platforms around YCH Commishes Bot">
             <svg class="beam-lines" viewBox="0 0 620 340" aria-hidden="true" preserveAspectRatio="none">
-              <path d="M110 70 C210 105 236 140 310 170" />
-              <path d="M96 170 C190 170 230 170 310 170" />
-              <path d="M130 270 C210 232 236 200 310 170" />
-              <path d="M510 70 C410 105 384 140 310 170" />
-              <path d="M524 170 C430 170 390 170 310 170" />
-              <path d="M490 270 C410 232 384 200 310 170" />
+              <path class="beam-base" d="M110 70 C210 105 236 140 310 170" />
+              <path class="beam-base" d="M96 170 C190 170 230 170 310 170" />
+              <path class="beam-base" d="M130 270 C210 232 236 200 310 170" />
+              <path class="beam-base" d="M510 70 C410 105 384 140 310 170" />
+              <path class="beam-base" d="M524 170 C430 170 390 170 310 170" />
+              <path class="beam-base" d="M490 270 C410 232 384 200 310 170" />
+              <path class="beam-ray" d="M110 70 C210 105 236 140 310 170" />
+              <path class="beam-ray" d="M96 170 C190 170 230 170 310 170" />
+              <path class="beam-ray" d="M130 270 C210 232 236 200 310 170" />
+              <path class="beam-ray" d="M510 70 C410 105 384 140 310 170" />
+              <path class="beam-ray" d="M524 170 C430 170 390 170 310 170" />
+              <path class="beam-ray" d="M490 270 C410 232 384 200 310 170" />
             </svg>
 
             <div class="platform-node node-instagram">
-              <span class="node-icon">IG</span>
+              <span class="node-icon"><img src="assets/social/instagram.png" alt="" /></span>
               <span>Instagram</span>
             </div>
             <div class="platform-node node-deviantart">
-              <span class="node-icon">DA</span>
+              <span class="node-icon"><img src="assets/social/deviantart.png" alt="" /></span>
               <span>DeviantArt</span>
             </div>
             <div class="platform-node node-telegram">
-              <span class="node-icon">TG</span>
+              <span class="node-icon"><img src="assets/social/telegram.png" alt="" /></span>
               <span>Telegram</span>
             </div>
 
-            <div class="bot-node">
+            <div class="bot-node" aria-label="YCH Commishes Bot">
               <span class="bot-node-icon">
                 <img src="assets/bot-logo.jpg" alt="" />
               </span>
-              <strong>YCH Bot</strong>
-              <span>one preview</span>
             </div>
 
             <div class="platform-node node-bluesky">
-              <span class="node-icon">BS</span>
+              <span class="node-icon"><img src="assets/social/bluesky.png" alt="" /></span>
               <span>Bluesky</span>
             </div>
             <div class="platform-node node-tumblr">
-              <span class="node-icon">TB</span>
+              <span class="node-icon"><img src="assets/social/tumblr.png" alt="" /></span>
               <span>Tumblr</span>
             </div>
             <div class="platform-node node-discord">
-              <span class="node-icon">DC</span>
+              <span class="node-icon"><img src="assets/social/discord.png" alt="" /></span>
               <span>Discord</span>
             </div>
           </div>
