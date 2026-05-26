@@ -584,7 +584,7 @@
         stroke: #22d3ee;
         stroke-width: 2.8;
         stroke-linecap: round;
-        stroke-dasharray: 42 620;
+        stroke-dasharray: 10 120;
         stroke-dashoffset: 0;
         opacity: 0.92;
         filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.72));
@@ -605,7 +605,7 @@
 
       @keyframes beam-ray {
         to {
-          stroke-dashoffset: -662;
+          stroke-dashoffset: -130;
         }
       }
 
@@ -624,6 +624,7 @@
         color: var(--muted);
         font-family: var(--font-mono);
         font-size: 0.72rem;
+        transform: translate(-50%, -50%);
       }
 
       .node-icon,
@@ -652,8 +653,8 @@
       .bot-node {
         top: 50%;
         left: 50%;
-        width: 96px;
-        min-height: 96px;
+        width: 86px;
+        min-height: 86px;
         padding: 0;
         border: 0;
         border-radius: 50%;
@@ -665,8 +666,8 @@
       }
 
       .bot-node-icon {
-        width: 96px;
-        height: 96px;
+        width: 86px;
+        height: 86px;
         overflow: hidden;
         border: 0;
         border-radius: 50%;
@@ -679,15 +680,15 @@
         height: 100%;
         object-fit: cover;
         border-radius: 50%;
-        transform: scale(1.42);
+        transform: scale(1.18);
       }
 
-      .node-instagram { top: 42px; left: 54px; }
-      .node-deviantart { top: 142px; left: 28px; }
-      .node-telegram { bottom: 42px; left: 72px; }
-      .node-bluesky { top: 42px; right: 54px; }
-      .node-tumblr { top: 142px; right: 28px; }
-      .node-discord { bottom: 42px; right: 72px; }
+      .node-instagram { top: 22%; left: 17%; }
+      .node-deviantart { top: 50%; left: 12%; }
+      .node-telegram { top: 76%; left: 20%; }
+      .node-bluesky { top: 22%; left: 83%; }
+      .node-tumblr { top: 50%; left: 88%; }
+      .node-discord { top: 76%; left: 80%; }
 
       /* ── Feature cards ── */
       .grid {
@@ -1249,19 +1250,19 @@
           </div>
 
           <div class="beam-map" aria-label="Connected social platforms around YCH Commishes Bot">
-            <svg class="beam-lines" viewBox="0 0 620 340" aria-hidden="true" preserveAspectRatio="none">
-              <path class="beam-base" d="M93 83 C182 104 220 136 273 170" />
-              <path class="beam-base" d="M67 183 C162 181 215 176 273 170" />
-              <path class="beam-base" d="M111 257 C187 232 224 201 273 170" />
-              <path class="beam-base" d="M453 83 C374 104 322 136 273 170" />
-              <path class="beam-base" d="M479 183 C384 181 331 176 273 170" />
-              <path class="beam-base" d="M435 257 C359 232 322 201 273 170" />
-              <path class="beam-ray" d="M93 83 C182 104 220 136 273 170" />
-              <path class="beam-ray" d="M67 183 C162 181 215 176 273 170" />
-              <path class="beam-ray" d="M111 257 C187 232 224 201 273 170" />
-              <path class="beam-ray" d="M453 83 C374 104 322 136 273 170" />
-              <path class="beam-ray" d="M479 183 C384 181 331 176 273 170" />
-              <path class="beam-ray" d="M435 257 C359 232 322 201 273 170" />
+            <svg class="beam-lines" viewBox="0 0 100 100" aria-hidden="true" preserveAspectRatio="none">
+              <path class="beam-base" d="M17 22 C31 28 40 41 50 50" />
+              <path class="beam-base" d="M12 50 C28 50 39 50 50 50" />
+              <path class="beam-base" d="M20 76 C34 68 42 58 50 50" />
+              <path class="beam-base" d="M83 22 C69 28 60 41 50 50" />
+              <path class="beam-base" d="M88 50 C72 50 61 50 50 50" />
+              <path class="beam-base" d="M80 76 C66 68 58 58 50 50" />
+              <path class="beam-ray" d="M17 22 C31 28 40 41 50 50" />
+              <path class="beam-ray" d="M12 50 C28 50 39 50 50 50" />
+              <path class="beam-ray" d="M20 76 C34 68 42 58 50 50" />
+              <path class="beam-ray" d="M83 22 C69 28 60 41 50 50" />
+              <path class="beam-ray" d="M88 50 C72 50 61 50 50 50" />
+              <path class="beam-ray" d="M80 76 C66 68 58 58 50 50" />
             </svg>
 
             <div class="platform-node node-instagram">
