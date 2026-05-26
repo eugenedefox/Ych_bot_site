@@ -512,7 +512,7 @@
       /* ── Platform beam map ── */
       .platform-section {
         display: grid;
-        grid-template-columns: minmax(0, 0.86fr) minmax(460px, 1fr);
+        grid-template-columns: minmax(0, 0.86fr) minmax(0, 1fr);
         gap: 44px;
         align-items: center;
       }
@@ -551,20 +551,138 @@
       }
 
       .beam-map {
+        --outer-radius: clamp(138px, 16vw, 188px);
+        --inner-radius: clamp(92px, 11vw, 128px);
         position: relative;
-        min-height: 340px;
+        justify-self: center;
+        display: grid;
+        width: min(100%, 540px);
+        aspect-ratio: 1;
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 28px;
         background:
           radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.14), transparent 34%),
           radial-gradient(circle at 18% 20%, rgba(56, 189, 248, 0.08), transparent 25%),
           rgba(255, 255, 255, 0.025);
-        overflow: hidden;
+        contain: layout paint;
+        overflow: clip;
+        animation: platform-reveal 760ms cubic-bezier(.22, 1, .36, 1) both;
+      }
+
+      .orbit-stage {
+        position: relative;
+        display: grid;
+        width: 100%;
+        aspect-ratio: 1;
+        place-items: center;
+      }
+
+      .orbit-mobile-grid {
+        display: none;
+      }
+
+      .orbit-ring {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        animation: orbit-spin var(--duration, 42s) linear infinite;
+      }
+
+      .orbit-ring::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: calc(var(--radius) * 2);
+        height: calc(var(--radius) * 2);
+        border: 1px solid rgba(202, 255, 244, 0.14);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .orbit-outer {
+        --radius: var(--outer-radius);
+        --duration: 48s;
+      }
+
+      .orbit-inner {
+        --radius: var(--inner-radius);
+        --duration: 34s;
+        animation-direction: reverse;
+      }
+
+      .orbit-inner::before {
+        border-color: rgba(56, 189, 248, 0.12);
+      }
+
+      .orbit-item {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        pointer-events: auto;
+        transform: rotate(var(--angle)) translateX(var(--radius));
+      }
+
+      .orbit-node {
+        animation: orbit-counter var(--duration, 42s) linear infinite;
+        transform: translate(-50%, -50%) rotate(var(--counter-start));
+      }
+
+      .orbit-inner .orbit-node {
+        animation-direction: reverse;
+      }
+
+      .orbit-ring:hover,
+      .orbit-ring:focus-within {
+        animation-play-state: paused;
+      }
+
+      .orbit-ring:hover .orbit-node,
+      .orbit-ring:focus-within .orbit-node {
+        animation-play-state: paused;
+      }
+
+      .orbit-node:hover .node-icon {
+        transform: translateY(-3px) scale(1.08);
+        box-shadow: 0 18px 42px rgba(20, 184, 166, 0.24);
+      }
+
+      @keyframes orbit-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes orbit-counter {
+        to {
+          transform: translate(-50%, -50%) rotate(var(--counter-end));
+        }
+      }
+
+      @keyframes platform-reveal {
+        from {
+          opacity: 0;
+          transform: translateY(18px) scale(0.96);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .orbit-glow {
+        position: absolute;
+        inset: 18%;
+        z-index: 0;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(20, 184, 166, 0.16), transparent 64%);
+        pointer-events: none;
       }
 
       .beam-lines {
-        position: absolute;
-        inset: 0;
+        display: none;
         width: 100%;
         height: 100%;
         pointer-events: none;
@@ -624,7 +742,6 @@
         color: var(--muted);
         font-family: var(--font-mono);
         font-size: 0.72rem;
-        transform: translate(-50%, -50%);
       }
 
       .node-icon,
@@ -640,6 +757,7 @@
         height: 54px;
         overflow: hidden;
         border-radius: 50%;
+        transition: transform var(--transition), box-shadow var(--transition);
       }
 
       .node-icon img {
@@ -653,8 +771,8 @@
       .bot-node {
         top: 50%;
         left: 50%;
-        width: 86px;
-        min-height: 86px;
+        width: clamp(86px, 8vw, 106px);
+        min-height: clamp(86px, 8vw, 106px);
         padding: 0;
         border: 0;
         border-radius: 50%;
@@ -665,9 +783,22 @@
           0 0 34px rgba(20, 184, 166, 0.18);
       }
 
+      @media (prefers-reduced-motion: reduce) {
+        .beam-map,
+        .orbit-ring,
+        .orbit-node {
+          animation: none;
+        }
+
+        .orbit-node,
+        .orbit-inner .orbit-node {
+          transform: translate(-50%, -50%) rotate(var(--counter-start));
+        }
+      }
+
       .bot-node-icon {
-        width: 86px;
-        height: 86px;
+        width: clamp(86px, 8vw, 106px);
+        height: clamp(86px, 8vw, 106px);
         overflow: hidden;
         border: 0;
         border-radius: 50%;
@@ -682,13 +813,6 @@
         border-radius: 50%;
         transform: scale(1.18);
       }
-
-      .node-instagram { top: 22%; left: 17%; }
-      .node-deviantart { top: 50%; left: 12%; }
-      .node-telegram { top: 76%; left: 20%; }
-      .node-bluesky { top: 22%; left: 83%; }
-      .node-tumblr { top: 50%; left: 88%; }
-      .node-discord { top: 76%; left: 80%; }
 
       /* ── Feature cards ── */
       .grid {
@@ -982,7 +1106,7 @@
         }
 
         .beam-map {
-          min-height: 320px;
+          width: min(100%, 500px);
         }
 
         footer {
@@ -1112,40 +1236,43 @@
         }
 
         .beam-map {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 12px;
-          min-height: 0;
+          width: min(100%, 360px);
+          aspect-ratio: auto;
           padding: 18px;
-          overflow: visible;
+          overflow: clip;
         }
 
-        .beam-lines {
+        .orbit-stage {
           display: none;
         }
 
-        .platform-node,
-        .bot-node {
+        .orbit-mobile-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px;
+        }
+
+        .orbit-mobile-grid::before {
+          content: '';
+          grid-column: 1 / -1;
+          display: block;
+          justify-self: center;
+          width: 88px;
+          height: 88px;
+          border-radius: 50%;
+          background: url("assets/bot-logo.jpg") center / 118% auto no-repeat;
+          box-shadow: 0 0 30px rgba(20, 184, 166, 0.18);
+        }
+
+        .orbit-mobile-grid .platform-node {
           position: static;
           width: auto;
-          transform: none;
-        }
-
-        .bot-node {
-          grid-column: 1 / -1;
-          justify-self: center;
-          width: 116px;
-          min-height: 0;
-          padding: 12px;
-          order: -1;
-        }
-
-        .platform-node {
           min-height: 94px;
           padding: 12px 8px;
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 16px;
           background: rgba(255, 255, 255, 0.025);
+          transform: none;
         }
 
         .node-icon {
@@ -1249,52 +1376,62 @@
             </div>
           </div>
 
-          <div class="beam-map" aria-label="Connected social platforms around YCH Commishes Bot">
-            <svg class="beam-lines" viewBox="0 0 100 100" aria-hidden="true" preserveAspectRatio="none">
-              <path class="beam-base" d="M17 22 C31 28 40 41 50 50" />
-              <path class="beam-base" d="M12 50 C28 50 39 50 50 50" />
-              <path class="beam-base" d="M20 76 C34 68 42 58 50 50" />
-              <path class="beam-base" d="M83 22 C69 28 60 41 50 50" />
-              <path class="beam-base" d="M88 50 C72 50 61 50 50 50" />
-              <path class="beam-base" d="M80 76 C66 68 58 58 50 50" />
-              <path class="beam-ray" d="M17 22 C31 28 40 41 50 50" />
-              <path class="beam-ray" d="M12 50 C28 50 39 50 50 50" />
-              <path class="beam-ray" d="M20 76 C34 68 42 58 50 50" />
-              <path class="beam-ray" d="M83 22 C69 28 60 41 50 50" />
-              <path class="beam-ray" d="M88 50 C72 50 61 50 50 50" />
-              <path class="beam-ray" d="M80 76 C66 68 58 58 50 50" />
-            </svg>
-
-            <div class="platform-node node-instagram">
-              <span class="node-icon"><img src="assets/social/instagram.png" alt="" /></span>
-              <span>Instagram</span>
-            </div>
-            <div class="platform-node node-deviantart">
-              <span class="node-icon"><img src="assets/social/deviantart.png" alt="" /></span>
-              <span>DeviantArt</span>
-            </div>
-            <div class="platform-node node-telegram">
-              <span class="node-icon"><img src="assets/social/telegram.png" alt="" /></span>
-              <span>Telegram</span>
-            </div>
-
+          <div class="beam-map orbit-map" aria-label="Connected social platforms around YCH Commishes Bot">
+            <div class="orbit-stage">
+              <span class="orbit-glow" aria-hidden="true"></span>
+              <div class="orbit-ring orbit-outer" aria-hidden="true">
+                <div class="orbit-item" style="--angle: 18deg;">
+                  <div class="platform-node orbit-node" style="--counter-start: -18deg; --counter-end: -378deg;">
+                    <span class="node-icon"><img src="assets/social/instagram.png" alt="" /></span>
+                    <span>Instagram</span>
+                  </div>
+                </div>
+                <div class="orbit-item" style="--angle: 138deg;">
+                  <div class="platform-node orbit-node" style="--counter-start: -138deg; --counter-end: -498deg;">
+                    <span class="node-icon"><img src="assets/social/bluesky.png" alt="" /></span>
+                    <span>Bluesky</span>
+                  </div>
+                </div>
+                <div class="orbit-item" style="--angle: 258deg;">
+                  <div class="platform-node orbit-node" style="--counter-start: -258deg; --counter-end: -618deg;">
+                    <span class="node-icon"><img src="assets/social/discord.png" alt="" /></span>
+                    <span>Discord</span>
+                  </div>
+                </div>
+              </div>
+              <div class="orbit-ring orbit-inner" aria-hidden="true">
+                <div class="orbit-item" style="--angle: 68deg;">
+                  <div class="platform-node orbit-node" style="--counter-start: -68deg; --counter-end: -428deg;">
+                    <span class="node-icon"><img src="assets/social/deviantart.png" alt="" /></span>
+                    <span>DeviantArt</span>
+                  </div>
+                </div>
+                <div class="orbit-item" style="--angle: 188deg;">
+                  <div class="platform-node orbit-node" style="--counter-start: -188deg; --counter-end: -548deg;">
+                    <span class="node-icon"><img src="assets/social/telegram.png" alt="" /></span>
+                    <span>Telegram</span>
+                  </div>
+                </div>
+                <div class="orbit-item" style="--angle: 308deg;">
+                  <div class="platform-node orbit-node" style="--counter-start: -308deg; --counter-end: -668deg;">
+                    <span class="node-icon"><img src="assets/social/tumblr.png" alt="" /></span>
+                    <span>Tumblr</span>
+                  </div>
+                </div>
+              </div>
             <div class="bot-node" aria-label="YCH Commishes Bot">
               <span class="bot-node-icon">
                 <img src="assets/bot-logo.jpg" alt="" />
               </span>
             </div>
-
-            <div class="platform-node node-bluesky">
-              <span class="node-icon"><img src="assets/social/bluesky.png" alt="" /></span>
-              <span>Bluesky</span>
             </div>
-            <div class="platform-node node-tumblr">
-              <span class="node-icon"><img src="assets/social/tumblr.png" alt="" /></span>
-              <span>Tumblr</span>
-            </div>
-            <div class="platform-node node-discord">
-              <span class="node-icon"><img src="assets/social/discord.png" alt="" /></span>
-              <span>Discord</span>
+            <div class="orbit-mobile-grid" aria-hidden="true">
+              <div class="platform-node"><span class="node-icon"><img src="assets/social/instagram.png" alt="" /></span><span>Instagram</span></div>
+              <div class="platform-node"><span class="node-icon"><img src="assets/social/deviantart.png" alt="" /></span><span>DeviantArt</span></div>
+              <div class="platform-node"><span class="node-icon"><img src="assets/social/telegram.png" alt="" /></span><span>Telegram</span></div>
+              <div class="platform-node"><span class="node-icon"><img src="assets/social/bluesky.png" alt="" /></span><span>Bluesky</span></div>
+              <div class="platform-node"><span class="node-icon"><img src="assets/social/tumblr.png" alt="" /></span><span>Tumblr</span></div>
+              <div class="platform-node"><span class="node-icon"><img src="assets/social/discord.png" alt="" /></span><span>Discord</span></div>
             </div>
           </div>
         </section>
