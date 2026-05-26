@@ -15,8 +15,42 @@
       rel="stylesheet"
     />
     <style>
+      @font-face {
+        font-family: "JetBrains Mono Local";
+        src: url("assets/fonts/jetbrains-mono-400.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "JetBrains Mono Local";
+        src: url("assets/fonts/jetbrains-mono-600.ttf") format("truetype");
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "JetBrains Mono Local";
+        src: url("assets/fonts/jetbrains-mono-700.ttf") format("truetype");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "JetBrains Mono Local";
+        src: url("assets/fonts/jetbrains-mono-800.ttf") format("truetype");
+        font-weight: 800;
+        font-style: normal;
+        font-display: swap;
+      }
+
       /* Reset & Tokens */
       :root {
+        --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+        --font-mono: "JetBrains Mono Local", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
         --bg: #10110f;
         --surface: #171914;
         --surface-2: #20231c;
@@ -47,7 +81,7 @@
       }
 
       body {
-        font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+        font-family: var(--font-sans);
         background:
           linear-gradient(180deg, #10110f 0%, #15170f 48%, #111412 100%);
         color: var(--ink);
@@ -89,7 +123,7 @@
         gap: 14px;
         font-weight: 800;
         font-size: 1.1rem;
-        letter-spacing: -0.02em;
+        letter-spacing: 0;
         color: var(--ink);
         text-decoration: none;
       }
@@ -120,6 +154,7 @@
       }
 
       nav {
+        font-family: var(--font-mono);
         display: flex;
         align-items: center;
         gap: 8px;
@@ -140,23 +175,26 @@
 
       /* ── Hero ── */
       main {
-        padding: 60px 0 80px;
+        padding: 44px 0 80px;
       }
 
       .hero {
-        max-width: 760px;
+        max-width: 860px;
+        padding-bottom: 34px;
+        border-bottom: 1px solid var(--glass-border);
       }
 
       .eyebrow {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        margin: 0 0 20px;
+        margin: 0 0 18px;
         padding: 6px 16px;
         border-radius: 100px;
         background: rgba(20, 184, 166, 0.12);
         border: 1px solid rgba(20, 184, 166, 0.2);
         color: var(--accent-1);
+        font-family: var(--font-mono);
         font-weight: 700;
         text-transform: uppercase;
         font-size: 0.78rem;
@@ -164,21 +202,21 @@
       }
 
       h1 {
+        font-family: var(--font-mono);
         margin: 0;
-        font-size: clamp(2.4rem, 6vw, 4.4rem);
-        font-weight: 900;
-        line-height: 1;
-        letter-spacing: -0.03em;
-        background: linear-gradient(135deg, #ffffff 0%, #99f6e4 40%, #f59e0b 60%, #ef4444 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        max-width: 780px;
+        color: var(--ink);
+        font-size: 3rem;
+        font-weight: 800;
+        line-height: 1.16;
+        letter-spacing: 0;
       }
 
       .lead {
-        margin: 22px 0 0;
+        max-width: 760px;
+        margin: 20px 0 0;
         color: var(--muted);
-        font-size: 1.1rem;
+        font-size: 1.05rem;
         line-height: 1.7;
       }
 
@@ -193,7 +231,7 @@
       .terms {
         display: grid;
         gap: 16px;
-        margin-top: 44px;
+        margin-top: 30px;
       }
 
       .terms section {
@@ -213,11 +251,12 @@
       }
 
       h2 {
+        font-family: var(--font-mono);
         margin: 0 0 14px;
         font-size: 1.3rem;
         font-weight: 700;
         line-height: 1.25;
-        letter-spacing: -0.01em;
+        letter-spacing: 0;
         color: var(--ink);
       }
 
@@ -296,7 +335,7 @@
         }
 
         h1 {
-          font-size: clamp(2rem, 7vw, 3rem);
+          font-size: 2.35rem;
         }
       }
     </style>
