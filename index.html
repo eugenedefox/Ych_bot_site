@@ -509,6 +509,203 @@
         line-height: 1.7;
       }
 
+      /* ── Platform beam map ── */
+      .platform-section {
+        display: grid;
+        grid-template-columns: minmax(0, 0.86fr) minmax(460px, 1fr);
+        gap: 44px;
+        align-items: center;
+      }
+
+      .platform-copy {
+        max-width: 520px;
+      }
+
+      .platform-copy h2 {
+        max-width: 620px;
+      }
+
+      .platform-copy p {
+        margin: 20px 0 0;
+        color: #b8c2b7;
+        font-size: 1.05rem;
+        line-height: 1.72;
+      }
+
+      .platform-points {
+        display: grid;
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      .platform-points span {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .platform-points strong {
+        color: var(--ink);
+      }
+
+      .beam-map {
+        position: relative;
+        min-height: 340px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 28px;
+        background:
+          radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.14), transparent 34%),
+          radial-gradient(circle at 18% 20%, rgba(56, 189, 248, 0.08), transparent 25%),
+          rgba(255, 255, 255, 0.025);
+        overflow: hidden;
+      }
+
+      .beam-lines {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      .beam-lines path {
+        fill: none;
+        stroke: rgba(161, 245, 232, 0.22);
+        stroke-width: 1.5;
+        stroke-linecap: round;
+        stroke-dasharray: 6 12;
+        animation: beam-flow 6s linear infinite;
+      }
+
+      .beam-lines path:nth-child(2n) {
+        animation-direction: reverse;
+        stroke: rgba(56, 189, 248, 0.2);
+      }
+
+      @keyframes beam-flow {
+        to {
+          stroke-dashoffset: -90;
+        }
+      }
+
+      .platform-node,
+      .bot-node {
+        position: absolute;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+        text-align: center;
+      }
+
+      .platform-node {
+        width: 76px;
+        gap: 7px;
+        color: var(--muted);
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+      }
+
+      .node-icon,
+      .bot-node-icon {
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        box-shadow: 0 18px 38px rgba(0, 0, 0, 0.26);
+      }
+
+      .node-icon {
+        width: 54px;
+        height: 54px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: #f8fafc;
+        color: #020617;
+        font-family: var(--font-mono);
+        font-weight: 800;
+        font-size: 0.86rem;
+      }
+
+      .node-instagram .node-icon {
+        color: #fff;
+        background: radial-gradient(circle at 30% 105%, #feda75 0 14%, #fa7e1e 25%, #d62976 48%, #962fbf 72%, #4f5bd5 100%);
+      }
+
+      .node-telegram .node-icon {
+        color: #fff;
+        background: linear-gradient(135deg, #37aee2, #1e96c8);
+      }
+
+      .node-tumblr .node-icon {
+        color: #fff;
+        background: #001935;
+      }
+
+      .node-deviantart .node-icon {
+        color: #05110f;
+        background: #05cc47;
+      }
+
+      .node-bluesky .node-icon {
+        color: #fff;
+        background: linear-gradient(135deg, #1185fe, #64d2ff);
+      }
+
+      .node-discord .node-icon {
+        color: #fff;
+        background: #5865f2;
+      }
+
+      .bot-node {
+        top: 50%;
+        left: 50%;
+        width: 138px;
+        min-height: 138px;
+        padding: 14px;
+        border: 1px solid rgba(20, 184, 166, 0.28);
+        border-radius: 32px;
+        background: rgba(9, 13, 20, 0.9);
+        transform: translate(-50%, -50%);
+        box-shadow:
+          0 24px 60px rgba(0, 0, 0, 0.38),
+          0 0 45px rgba(20, 184, 166, 0.12);
+      }
+
+      .bot-node-icon {
+        width: 72px;
+        height: 72px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .bot-node-icon img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.16);
+      }
+
+      .bot-node strong {
+        margin-top: 10px;
+        font-family: var(--font-mono);
+        color: var(--ink);
+        line-height: 1.15;
+      }
+
+      .bot-node span {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 0.76rem;
+      }
+
+      .node-instagram { top: 42px; left: 54px; }
+      .node-deviantart { top: 142px; left: 28px; }
+      .node-telegram { bottom: 42px; left: 72px; }
+      .node-bluesky { top: 42px; right: 54px; }
+      .node-tumblr { top: 142px; right: 28px; }
+      .node-discord { bottom: 42px; right: 72px; }
+
       /* ── Feature cards ── */
       .grid {
         display: grid;
@@ -759,6 +956,7 @@
         }
 
         .hero,
+        .platform-section,
         .grid,
         .flow,
         .policy {
@@ -797,6 +995,10 @@
 
         .bubble.success {
           display: none;
+        }
+
+        .beam-map {
+          min-height: 320px;
         }
 
         footer {
@@ -912,6 +1114,61 @@
         .row strong {
           line-height: 1.35;
         }
+
+        .platform-section {
+          gap: 32px;
+        }
+
+        .platform-copy h2 {
+          font-size: 2rem;
+        }
+
+        .platform-copy p {
+          font-size: 0.96rem;
+        }
+
+        .beam-map {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px;
+          min-height: 0;
+          padding: 18px;
+          overflow: visible;
+        }
+
+        .beam-lines {
+          display: none;
+        }
+
+        .platform-node,
+        .bot-node {
+          position: static;
+          width: auto;
+          transform: none;
+        }
+
+        .bot-node {
+          grid-column: 1 / -1;
+          justify-self: center;
+          width: min(100%, 220px);
+          min-height: 0;
+          padding: 16px;
+          order: -1;
+        }
+
+        .platform-node {
+          min-height: 94px;
+          padding: 12px 8px;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.025);
+        }
+
+        .node-icon {
+          width: 46px;
+          height: 46px;
+          font-size: 0.76rem;
+        }
       }
     </style>
   </head>
@@ -927,6 +1184,7 @@
         <nav aria-label="Main navigation">
           <a href="#features">Features</a>
           <a href="#workflow">Workflow</a>
+          <a href="#platforms">Platforms</a>
           <a href="#instagram-api">Instagram API</a>
           <a href="#privacy">Privacy</a>
           <a href="terms.html">Terms</a>
@@ -988,6 +1246,69 @@
               </div>
             </div>
           </aside>
+        </section>
+
+        <section id="platforms" class="platform-section" aria-labelledby="platforms-title">
+          <div class="platform-copy">
+            <p class="section-label">✦ Social posting hub</p>
+            <h2 id="platforms-title">Spend less time managing social posts.</h2>
+            <p>
+              Artists already have enough work: drawing, commissions, auction updates, messages,
+              and self-promotion. YCH Commishes Bot keeps the posting routine in one Telegram flow,
+              so the same artwork, tags, auction link, and final text can be prepared once and sent
+              to the places where your audience already follows you.
+            </p>
+            <div class="platform-points" aria-label="Platform workflow benefits">
+              <span><strong>01</strong> Prepare the post once instead of rebuilding it in every app.</span>
+              <span><strong>02</strong> Keep auction links, tags, and publishing choices visible before posting.</span>
+              <span><strong>03</strong> Use saved connections while the bot handles the repetitive platform work.</span>
+            </div>
+          </div>
+
+          <div class="beam-map" aria-label="Connected social platforms around YCH Commishes Bot">
+            <svg class="beam-lines" viewBox="0 0 620 340" aria-hidden="true" preserveAspectRatio="none">
+              <path d="M110 70 C210 105 236 140 310 170" />
+              <path d="M96 170 C190 170 230 170 310 170" />
+              <path d="M130 270 C210 232 236 200 310 170" />
+              <path d="M510 70 C410 105 384 140 310 170" />
+              <path d="M524 170 C430 170 390 170 310 170" />
+              <path d="M490 270 C410 232 384 200 310 170" />
+            </svg>
+
+            <div class="platform-node node-instagram">
+              <span class="node-icon">IG</span>
+              <span>Instagram</span>
+            </div>
+            <div class="platform-node node-deviantart">
+              <span class="node-icon">DA</span>
+              <span>DeviantArt</span>
+            </div>
+            <div class="platform-node node-telegram">
+              <span class="node-icon">TG</span>
+              <span>Telegram</span>
+            </div>
+
+            <div class="bot-node">
+              <span class="bot-node-icon">
+                <img src="assets/bot-logo.jpg" alt="" />
+              </span>
+              <strong>YCH Bot</strong>
+              <span>one preview</span>
+            </div>
+
+            <div class="platform-node node-bluesky">
+              <span class="node-icon">BS</span>
+              <span>Bluesky</span>
+            </div>
+            <div class="platform-node node-tumblr">
+              <span class="node-icon">TB</span>
+              <span>Tumblr</span>
+            </div>
+            <div class="platform-node node-discord">
+              <span class="node-icon">DC</span>
+              <span>Discord</span>
+            </div>
+          </div>
         </section>
 
         <section id="features" aria-labelledby="features-title">
