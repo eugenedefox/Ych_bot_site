@@ -8,72 +8,108 @@
       name="description"
       content="A Telegram bot for artists who manage YCH Commishes auctions, publishing, bid tracking, and social posting."
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      /* Reset & Tokens */
       :root {
-        color-scheme: light;
-        --bg: #f6f3ed;
-        --ink: #1e252b;
-        --muted: #66717b;
-        --panel: #ffffff;
-        --line: #ded7cb;
-        --accent: #0f8c76;
-        --accent-dark: #0b6254;
-        --warm: #f2b35d;
-        --blue: #356f9f;
-        --shadow: 0 20px 50px rgba(31, 37, 43, 0.12);
+        --bg: #10110f;
+        --surface: #171914;
+        --surface-2: #20231c;
+        --glass: rgba(255, 255, 255, 0.04);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --ink: #f0f1e8;
+        --muted: #9aa097;
+        --accent-1: #14b8a6; /* teal */
+        --accent-2: #f59e0b; /* amber */
+        --accent-3: #38bdf8; /* cyan */
+        --accent-4: #ef4444; /* coral */
+        --gradient-main: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-4));
+        --gradient-cool: linear-gradient(135deg, var(--accent-3), var(--accent-1));
+        --shadow-glow: 0 0 80px rgba(20, 184, 166, 0.15), 0 0 160px rgba(245, 158, 11, 0.08);
+        --radius: 16px;
+        --radius-sm: 10px;
+        --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       * {
         box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
       }
 
       body {
-        margin: 0;
-        font-family:
-          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-          sans-serif;
+        font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
         background:
-          radial-gradient(circle at top left, rgba(242, 179, 93, 0.28), transparent 34rem),
-          linear-gradient(180deg, #fbfaf7 0%, var(--bg) 100%);
+          linear-gradient(180deg, #10110f 0%, #15170f 48%, #111412 100%);
         color: var(--ink);
-        line-height: 1.55;
+        line-height: 1.6;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
       }
 
-      a {
-        color: var(--accent-dark);
-      }
-
+      /* Layout */
       .page {
-        width: min(1120px, calc(100% - 32px));
+        position: relative;
+        z-index: 1;
+        width: min(1200px, calc(100% - 40px));
         margin: 0 auto;
       }
 
+      a {
+        color: var(--accent-3);
+        text-decoration: none;
+        transition: color var(--transition);
+      }
+
+      a:hover {
+        color: var(--accent-1);
+      }
+
+      /* ── Header ── */
       header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 24px;
-        padding: 22px 0;
+        padding: 24px 0;
       }
 
       .brand {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 14px;
         font-weight: 800;
-        letter-spacing: 0;
+        font-size: 1.1rem;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        text-decoration: none;
       }
 
       .mark {
+        position: relative;
         display: grid;
-        width: 42px;
-        height: 42px;
+        width: 46px;
+        height: 46px;
         place-items: center;
-        border: 1px solid rgba(15, 140, 118, 0.25);
         border-radius: 50%;
-        background: #ffffff;
-        box-shadow: 0 8px 20px rgba(15, 140, 118, 0.12);
+        background: var(--surface-2);
+        border: 1px solid var(--glass-border);
         overflow: hidden;
+        box-shadow: 0 0 24px rgba(20, 184, 166, 0.2);
+        transition: box-shadow var(--transition);
+      }
+
+      .brand:hover .mark {
+        box-shadow: 0 0 32px rgba(20, 184, 166, 0.4);
       }
 
       .mark img,
@@ -89,120 +125,167 @@
       nav {
         display: flex;
         align-items: center;
-        gap: 18px;
-        color: var(--muted);
-        font-size: 0.95rem;
+        gap: 8px;
+        font-size: 0.9rem;
       }
 
       nav a {
-        color: inherit;
-        text-decoration: none;
+        color: var(--muted);
+        padding: 8px 14px;
+        border-radius: 8px;
+        transition: all var(--transition);
       }
 
+      nav a:hover {
+        color: var(--ink);
+        background: var(--glass);
+      }
+
+      /* ── Hero ── */
       .hero {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
-        gap: 44px;
+        grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+        gap: 60px;
         align-items: center;
-        min-height: 620px;
-        padding: 54px 0 70px;
+        min-height: 640px;
+        padding: 60px 0 80px;
       }
 
       .eyebrow {
-        margin: 0 0 14px;
-        color: var(--accent-dark);
-        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 20px;
+        padding: 6px 16px;
+        border-radius: 100px;
+        background: rgba(20, 184, 166, 0.12);
+        border: 1px solid rgba(20, 184, 166, 0.2);
+        color: var(--accent-1);
+        font-weight: 700;
         text-transform: uppercase;
-        font-size: 0.82rem;
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
       }
 
       h1 {
         max-width: 780px;
-        margin: 0;
-        font-size: clamp(2.65rem, 7vw, 5.8rem);
-        line-height: 0.96;
-        letter-spacing: 0;
+        font-size: clamp(2.8rem, 6.5vw, 5.4rem);
+        font-weight: 900;
+        line-height: 0.95;
+        letter-spacing: -0.03em;
+        background: linear-gradient(135deg, #ffffff 0%, #99f6e4 40%, #f59e0b 60%, #ef4444 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
 
       .lead {
-        max-width: 650px;
-        margin: 26px 0 0;
-        color: #3c4852;
-        font-size: 1.18rem;
+        max-width: 580px;
+        margin: 28px 0 0;
+        color: var(--muted);
+        font-size: 1.15rem;
+        line-height: 1.7;
       }
 
       .actions {
         display: flex;
         flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 34px;
+        gap: 14px;
+        margin-top: 38px;
       }
 
       .button {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 46px;
-        padding: 0 18px;
-        border: 1px solid transparent;
-        border-radius: 8px;
-        background: var(--accent);
+        min-height: 50px;
+        padding: 0 28px;
+        border: none;
+        border-radius: var(--radius-sm);
+        background: var(--gradient-main);
         color: #ffffff;
-        font-weight: 750;
+        font-weight: 700;
+        font-size: 0.95rem;
         text-decoration: none;
+        cursor: pointer;
+        transition: all var(--transition);
+        box-shadow: 0 4px 20px rgba(20, 184, 166, 0.3);
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(20, 184, 166, 0.45);
+        color: #ffffff;
       }
 
       .button.secondary {
-        border-color: var(--line);
-        background: #ffffff;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
         color: var(--ink);
+        box-shadow: none;
       }
 
+      .button.secondary:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
+      }
+
+      /* ── Phone mockup ── */
       .phone {
-        border: 1px solid #24313d;
-        border-radius: 30px;
-        background: #182431;
-        padding: 16px;
-        box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 36px;
+        background: linear-gradient(145deg, #20231c, #171914);
+        padding: 14px;
+        box-shadow: var(--shadow-glow), 0 30px 60px rgba(0, 0, 0, 0.4);
+        transition: transform var(--transition), box-shadow var(--transition);
+      }
+
+      .phone:hover {
+        transform: translateY(-6px) rotate(0.5deg);
+        box-shadow: 0 0 100px rgba(20, 184, 166, 0.2), 0 0 200px rgba(245, 158, 11, 0.1), 0 40px 80px rgba(0, 0, 0, 0.5);
       }
 
       .screen {
-        min-height: 540px;
+        min-height: 520px;
         overflow: hidden;
-        border-radius: 22px;
-        background: #0f1924;
-        color: #e8f0f6;
+        border-radius: 24px;
+        background: var(--bg);
+        color: var(--ink);
+        border: 1px solid var(--glass-border);
       }
 
       .chat-head {
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 16px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        background: #142233;
+        gap: 12px;
+        padding: 16px 18px;
+        border-bottom: 1px solid var(--glass-border);
+        background: rgba(255, 255, 255, 0.02);
       }
 
       .avatar {
         display: grid;
-        width: 36px;
-        height: 36px;
+        width: 38px;
+        height: 38px;
         place-items: center;
         border-radius: 50%;
-        background: var(--accent);
+        background: var(--surface-2);
         overflow: hidden;
+        border: 1px solid var(--glass-border);
       }
 
       .logo-art {
         display: grid;
-        width: 118px;
-        height: 118px;
+        width: 110px;
+        height: 110px;
         place-items: center;
-        margin: 20px auto 6px;
+        margin: 18px auto 8px;
         overflow: hidden;
         border-radius: 50%;
-        background: #0f1924;
-        box-shadow: 0 0 34px rgba(61, 209, 255, 0.2);
+        background: var(--surface);
+        box-shadow: 0 0 50px rgba(20, 184, 166, 0.25);
+        border: 2px solid rgba(20, 184, 166, 0.2);
       }
 
       .chat-head strong,
@@ -211,38 +294,42 @@
       }
 
       .chat-head span {
-        color: #94a6b7;
-        font-size: 0.82rem;
+        color: var(--muted);
+        font-size: 0.8rem;
       }
 
       .messages {
         display: grid;
-        gap: 12px;
-        padding: 16px;
+        gap: 10px;
+        padding: 14px;
       }
 
       .bubble {
-        border-radius: 8px;
-        background: #203143;
-        padding: 14px;
-        color: #eaf3fb;
+        border-radius: 12px;
+        background: var(--surface-2);
+        padding: 14px 16px;
+        color: var(--ink);
+        font-size: 0.9rem;
+        border: 1px solid var(--glass-border);
       }
 
       .bubble.user {
         justify-self: end;
         max-width: 82%;
-        background: #2f638f;
+        background: linear-gradient(135deg, rgba(20, 184, 166, 0.3), rgba(245, 158, 11, 0.2));
+        border-color: rgba(20, 184, 166, 0.25);
       }
 
       .bubble small {
         display: block;
         margin-top: 8px;
-        color: #aab8c5;
+        color: var(--muted);
+        font-size: 0.82rem;
       }
 
       .preview {
         display: grid;
-        gap: 9px;
+        gap: 7px;
         margin-top: 10px;
       }
 
@@ -252,146 +339,304 @@
         justify-content: space-between;
         gap: 10px;
         border-radius: 8px;
-        background: rgba(255, 255, 255, 0.08);
-        padding: 10px;
-        font-size: 0.9rem;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 9px 12px;
+        font-size: 0.85rem;
+      }
+
+      .row span {
+        color: var(--muted);
       }
 
       .status {
-        color: #85e3bd;
-        font-weight: 750;
+        color: #34d399;
+        font-weight: 700;
       }
 
+      /* ── Sections ── */
       section {
-        padding: 72px 0;
-        border-top: 1px solid var(--line);
+        padding: 90px 0;
+        border-top: 1px solid var(--glass-border);
       }
 
       .section-head {
         max-width: 720px;
       }
 
+      .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+        color: var(--accent-3);
+        font-weight: 700;
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
       h2 {
         margin: 0;
-        font-size: clamp(2rem, 4vw, 3rem);
-        line-height: 1.05;
-        letter-spacing: 0;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        font-weight: 800;
+        line-height: 1.08;
+        letter-spacing: -0.025em;
       }
 
       .section-head p {
         margin: 18px 0 0;
         color: var(--muted);
-        font-size: 1.08rem;
+        font-size: 1.05rem;
+        line-height: 1.7;
       }
 
+      /* ── Feature cards ── */
       .grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-        margin-top: 30px;
+        gap: 18px;
+        margin-top: 40px;
       }
 
       .card {
-        min-height: 210px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--panel);
-        padding: 22px;
+        position: relative;
+        min-height: 220px;
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius);
+        background: var(--glass);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 28px;
+        transition: all var(--transition);
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius);
+        background: linear-gradient(135deg, rgba(20, 184, 166, 0.06), rgba(6, 182, 212, 0.04));
+        opacity: 0;
+        transition: opacity var(--transition);
+      }
+
+      .card:hover {
+        border-color: rgba(20, 184, 166, 0.25);
+        transform: translateY(-4px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), 0 0 40px rgba(20, 184, 166, 0.08);
+      }
+
+      .card:hover::before {
+        opacity: 1;
       }
 
       .card-icon {
+        position: relative;
         display: grid;
-        width: 42px;
-        height: 42px;
+        width: 48px;
+        height: 48px;
         place-items: center;
-        border-radius: 8px;
-        background: #edf7f4;
+        border-radius: 12px;
+        background: rgba(20, 184, 166, 0.1);
+        border: 1px solid rgba(20, 184, 166, 0.15);
+        font-size: 1.3rem;
+        transition: all var(--transition);
+      }
+
+      .card:hover .card-icon {
+        background: rgba(20, 184, 166, 0.18);
+        box-shadow: 0 0 20px rgba(20, 184, 166, 0.2);
       }
 
       .card h3 {
-        margin: 18px 0 8px;
+        position: relative;
+        margin: 20px 0 10px;
         font-size: 1.15rem;
+        font-weight: 700;
       }
 
       .card p {
+        position: relative;
         margin: 0;
         color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
       }
 
+      /* ── Workflow steps ── */
       .flow {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-        margin-top: 30px;
+        gap: 16px;
+        margin-top: 40px;
       }
 
       .step {
-        border-left: 4px solid var(--accent);
-        border-radius: 8px;
-        background: #ffffff;
-        padding: 18px;
+        position: relative;
+        border-radius: var(--radius);
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        padding: 24px;
+        transition: all var(--transition);
+        overflow: hidden;
+      }
+
+      .step::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: var(--gradient-main);
+        border-radius: 4px 0 0 4px;
+      }
+
+      .step:hover {
+        border-color: rgba(20, 184, 166, 0.2);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+      }
+
+      .step-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(20, 184, 166, 0.12);
+        border: 1px solid rgba(20, 184, 166, 0.2);
+        color: var(--accent-1);
+        font-weight: 800;
+        font-size: 0.85rem;
+        margin-bottom: 14px;
       }
 
       .step strong {
         display: block;
         margin-bottom: 8px;
+        font-size: 1.05rem;
       }
 
       .step span {
         color: var(--muted);
+        font-size: 0.93rem;
+        line-height: 1.55;
       }
 
+      /* ── Info note ── */
       .note {
-        margin-top: 30px;
-        border: 1px solid rgba(53, 111, 159, 0.22);
-        border-radius: 8px;
-        background: #eef5fb;
-        padding: 20px;
-        color: #29465f;
+        margin-top: 36px;
+        border: 1px solid rgba(6, 182, 212, 0.2);
+        border-radius: var(--radius);
+        background: rgba(6, 182, 212, 0.06);
+        padding: 24px;
+        color: var(--muted);
+        line-height: 1.65;
       }
 
+      .note strong {
+        color: var(--ink);
+      }
+
+      /* ── Policy blocks ── */
       .policy {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 18px;
-        margin-top: 30px;
+        margin-top: 36px;
       }
 
       .policy-block {
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: #ffffff;
-        padding: 22px;
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius);
+        background: var(--glass);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 28px;
+        transition: all var(--transition);
+      }
+
+      .policy-block:hover {
+        border-color: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       }
 
       .policy-block h3 {
-        margin: 0 0 12px;
+        margin: 0 0 16px;
+        font-size: 1.1rem;
+        font-weight: 700;
       }
 
       .policy-block ul {
-        margin: 0;
-        padding-left: 20px;
+        list-style: none;
+        padding: 0;
         color: var(--muted);
+      }
+
+      .policy-block li {
+        position: relative;
+        padding-left: 20px;
+        line-height: 1.65;
+      }
+
+      .policy-block li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 10px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent-1);
+        opacity: 0.6;
       }
 
       .policy-block li + li {
-        margin-top: 8px;
+        margin-top: 10px;
       }
 
+      .policy-block li strong {
+        color: var(--ink);
+      }
+
+      /* ── Footer ── */
       footer {
-        padding: 34px 0 46px;
+        padding: 40px 0 56px;
+        border-top: 1px solid var(--glass-border);
         color: var(--muted);
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       }
 
-      @media (max-width: 860px) {
+      .footer-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .footer-links a {
+        color: var(--muted);
+        transition: color var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--ink);
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 900px) {
         header {
-          align-items: flex-start;
           flex-direction: column;
+          align-items: flex-start;
         }
 
         nav {
           flex-wrap: wrap;
+          gap: 4px;
         }
 
         .hero,
@@ -403,7 +648,29 @@
 
         .hero {
           min-height: 0;
-          padding-top: 28px;
+          padding: 32px 0 60px;
+          gap: 40px;
+        }
+
+        h1 {
+          font-size: clamp(2.2rem, 8vw, 3.6rem);
+        }
+
+        .phone {
+          max-width: 400px;
+        }
+
+        footer {
+          flex-direction: column;
+          gap: 16px;
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 480px) {
+        nav a {
+          padding: 6px 10px;
+          font-size: 0.85rem;
         }
       }
     </style>
@@ -428,9 +695,9 @@
       </header>
 
       <main>
-        <section class="hero" aria-labelledby="hero-title">
+        <section class="hero" aria-labelledby="hero-title" style="border-top: none; padding-top: 60px;">
           <div>
-            <p class="eyebrow">Telegram assistant for artists</p>
+            <p class="eyebrow">✦ Telegram assistant for artists</p>
             <h1 id="hero-title">YCH auction posting without the busywork.</h1>
             <p class="lead">
               YCH Commishes Bot helps artists prepare auction posts, track bid links, and
@@ -481,6 +748,7 @@
 
         <section id="features" aria-labelledby="features-title">
           <div class="section-head">
+            <p class="section-label">✦ Capabilities</p>
             <h2 id="features-title">Built for YCH auction work</h2>
             <p>
               The bot is created to reduce repetitive posting tasks for artists who sell YCH
@@ -542,6 +810,7 @@
 
         <section id="workflow" aria-labelledby="workflow-title">
           <div class="section-head">
+            <p class="section-label">✦ How it works</p>
             <h2 id="workflow-title">Simple publishing flow</h2>
             <p>
               The project focuses on a clear Telegram workflow for artists who want fewer tabs,
@@ -551,19 +820,23 @@
 
           <div class="flow">
             <div class="step">
-              <strong>1. Upload art</strong>
+              <span class="step-number">1</span>
+              <strong>Upload art</strong>
               <span>Send an image to the bot and let it prepare a draft.</span>
             </div>
             <div class="step">
-              <strong>2. Edit details</strong>
+              <span class="step-number">2</span>
+              <strong>Edit details</strong>
               <span>Adjust title, text, tags, template, and auction link.</span>
             </div>
             <div class="step">
-              <strong>3. Pick targets</strong>
+              <span class="step-number">3</span>
+              <strong>Pick targets</strong>
               <span>Enable only the platforms needed for this post.</span>
             </div>
             <div class="step">
-              <strong>4. Publish</strong>
+              <span class="step-number">4</span>
+              <strong>Publish</strong>
               <span>Send the final post after checking the preview.</span>
             </div>
           </div>
@@ -571,6 +844,7 @@
 
         <section id="instagram-api" aria-labelledby="instagram-api-title">
           <div class="section-head">
+            <p class="section-label">✦ Platform integration</p>
             <h2 id="instagram-api-title">Instagram API use case</h2>
             <p>
               The bot uses Instagram API access only to let an artist publish artwork to an
@@ -602,6 +876,7 @@
 
         <section id="privacy" aria-labelledby="privacy-title">
           <div class="section-head">
+            <p class="section-label">✦ Your data</p>
             <h2 id="privacy-title">Privacy policy</h2>
             <p>
               YCH Commishes Bot stores only the information needed to provide publishing,
@@ -633,6 +908,7 @@
 
         <section id="data-deletion" aria-labelledby="data-deletion-title">
           <div class="section-head">
+            <p class="section-label">✦ Account management</p>
             <h2 id="data-deletion-title">Data deletion</h2>
             <p>
               Users can disconnect integrations directly in Telegram. For full deletion, contact
@@ -649,6 +925,7 @@
 
         <section id="about" aria-labelledby="about-title">
           <div class="section-head">
+            <p class="section-label">✦ Background</p>
             <h2 id="about-title">Why it exists</h2>
             <p>
               YCH Commishes Bot is made as a practical helper for managing artwork publishing and
@@ -665,6 +942,11 @@
 
       <footer>
         <span>YCH Commishes Bot · Built for cleaner auction publishing workflows.</span>
+        <div class="footer-links">
+          <a href="#privacy">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="mailto:eugenedefox@gmail.com">Contact</a>
+        </div>
       </footer>
     </div>
   </body>
