@@ -270,7 +270,22 @@
         box-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
       }
 
-      /* ── Phone mockup ── */
+      /* ── Phone mockup floating ── */
+      @keyframes phone-float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          box-shadow: 0 34px 90px rgba(0, 0, 0, 0.58), 0 0 54px rgba(20, 184, 166, 0.06);
+        }
+        50% {
+          transform: translateY(-10px) rotate(1deg);
+          box-shadow: 0 46px 112px rgba(0, 0, 0, 0.66), 0 0 70px rgba(20, 184, 166, 0.09);
+        }
+        100% {
+          transform: translateY(0) rotate(0deg);
+          box-shadow: 0 34px 90px rgba(0, 0, 0, 0.58), 0 0 54px rgba(20, 184, 166, 0.06);
+        }
+      }
+
       .phone {
         position: relative;
         justify-self: end;
@@ -285,16 +300,18 @@
           inset 0 0 0 7px #07090e,
           0 34px 90px rgba(0, 0, 0, 0.58),
           0 0 54px rgba(20, 184, 166, 0.06);
-        transition: transform var(--transition), box-shadow var(--transition);
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: phone-float 7s ease-in-out infinite;
       }
 
       .phone:hover {
-        transform: translateY(-6px) rotate(0.5deg);
+        animation-play-state: paused;
+        transform: translateY(-16px) rotate(1.8deg) scale(1.03);
         box-shadow:
-          inset 0 0 0 2px rgba(255, 255, 255, 0.05),
+          inset 0 0 0 2px rgba(255, 255, 255, 0.06),
           inset 0 0 0 7px #07090e,
-          0 42px 110px rgba(0, 0, 0, 0.64),
-          0 0 62px rgba(20, 184, 166, 0.08);
+          0 52px 130px rgba(0, 0, 0, 0.72),
+          0 0 80px rgba(20, 184, 166, 0.14);
       }
 
       .phone-control {
@@ -1073,7 +1090,7 @@
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         padding: 28px;
-        transition: all var(--transition);
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         overflow: hidden;
       }
 
@@ -1082,15 +1099,17 @@
         position: absolute;
         inset: 0;
         border-radius: var(--radius);
-        background: linear-gradient(135deg, rgba(20, 184, 166, 0.06), rgba(6, 182, 212, 0.04));
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
         opacity: 0;
-        transition: opacity var(--transition);
+        transition: opacity 0.5s ease;
       }
 
       .card:hover {
-        border-color: rgba(20, 184, 166, 0.25);
-        transform: translateY(-4px);
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), 0 0 40px rgba(20, 184, 166, 0.08);
+        border-color: var(--card-glow, rgba(20, 184, 166, 0.25));
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 
+          0 24px 56px rgba(0, 0, 0, 0.4), 
+          0 0 30px rgba(var(--card-glow, 20, 184, 166), 0.12);
       }
 
       .card:hover::before {
@@ -1560,6 +1579,49 @@
         transform: translateY(0);
         filter: blur(0);
       }
+
+      /* ── Distinct Section-Specific Entrance Reveals ── */
+      .card-reveal-init {
+        opacity: 0;
+        transform: translateY(40px) scale(0.92) rotateY(-12deg);
+        filter: blur(5px);
+        transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                    filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .card-revealed {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateY(0);
+        filter: blur(0);
+      }
+
+      .step-reveal-init {
+        opacity: 0;
+        transform: translateX(-40px);
+        transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .step-revealed {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .policy-left-reveal-init {
+        opacity: 0;
+        transform: translateX(-60px) rotate(-2deg);
+        transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .policy-right-reveal-init {
+        opacity: 0;
+        transform: translateX(60px) rotate(2deg);
+        transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .policy-revealed {
+        opacity: 1;
+        transform: translateX(0) rotate(0);
+      }
     </style>
   </head>
   <body>
@@ -1761,7 +1823,7 @@
           </div>
 
           <div class="grid">
-            <article class="card">
+            <article class="card card-reveal-init" style="--card-glow: var(--accent-1);">
               <span class="card-icon">🖼️</span>
               <h3>Upload and preview</h3>
               <p>
@@ -1769,7 +1831,7 @@
                 final post text before publishing.
               </p>
             </article>
-            <article class="card">
+            <article class="card card-reveal-init" style="--card-glow: var(--accent-3);">
               <span class="card-icon">🔗</span>
               <h3>Auction links</h3>
               <p>
@@ -1777,7 +1839,7 @@
                 points users to the right bidding page.
               </p>
             </article>
-            <article class="card">
+            <article class="card card-reveal-init" style="--card-glow: var(--accent-2);">
               <span class="card-icon">🏷️</span>
               <h3>Tags and platforms</h3>
               <p>
@@ -1785,7 +1847,7 @@
                 that fits each platform.
               </p>
             </article>
-            <article class="card">
+            <article class="card card-reveal-init" style="--card-glow: var(--accent-4);">
               <span class="card-icon">🔔</span>
               <h3>Bid tracking</h3>
               <p>
@@ -1793,7 +1855,7 @@
                 that need updates.
               </p>
             </article>
-            <article class="card">
+            <article class="card card-reveal-init" style="--card-glow: var(--accent-3);">
               <span class="card-icon">🧩</span>
               <h3>Post templates</h3>
               <p>
@@ -1801,7 +1863,7 @@
                 auction text.
               </p>
             </article>
-            <article class="card">
+            <article class="card card-reveal-init" style="--card-glow: var(--accent-1);">
               <span class="card-icon">🛡️</span>
               <h3>Publishing controls</h3>
               <p>
@@ -1823,22 +1885,22 @@
           </div>
 
           <div class="flow">
-            <div class="step">
+            <div class="step step-reveal-init">
               <span class="step-number">1</span>
               <strong>Upload art</strong>
               <span>Send an image to the bot and let it prepare a draft.</span>
             </div>
-            <div class="step">
+            <div class="step step-reveal-init">
               <span class="step-number">2</span>
               <strong>Edit details</strong>
               <span>Adjust title, text, tags, template, and auction link.</span>
             </div>
-            <div class="step">
+            <div class="step step-reveal-init">
               <span class="step-number">3</span>
               <strong>Pick targets</strong>
               <span>Enable only the platforms needed for this post.</span>
             </div>
-            <div class="step">
+            <div class="step step-reveal-init">
               <span class="step-number">4</span>
               <strong>Publish</strong>
               <span>Send the final post after checking the preview.</span>
@@ -1857,7 +1919,7 @@
           </div>
 
           <div class="policy">
-            <article class="policy-block">
+            <article class="policy-block policy-left-reveal-init">
               <h3>What the integration does</h3>
               <ul>
                 <li>Connects a user's own Instagram Professional account through OAuth.</li>
@@ -1866,7 +1928,7 @@
                 <li>Adds the caption, tags, and auction text prepared by the user.</li>
               </ul>
             </article>
-            <article class="policy-block">
+            <article class="policy-block policy-right-reveal-init">
               <h3>Requested permissions</h3>
               <ul>
                 <li><strong>instagram_business_basic</strong> identifies the connected account.</li>
@@ -1889,7 +1951,7 @@
           </div>
 
           <div class="policy">
-            <article class="policy-block">
+            <article class="policy-block policy-left-reveal-init">
               <h3>Data the bot may store</h3>
               <ul>
                 <li>Telegram user ID and username for bot access and settings.</li>
@@ -1898,7 +1960,7 @@
                 <li>Temporary media files or public media URLs required for publishing.</li>
               </ul>
             </article>
-            <article class="policy-block">
+            <article class="policy-block policy-right-reveal-init">
               <h3>How data is used</h3>
               <ul>
                 <li>To publish artwork only after the user confirms the post.</li>
@@ -1965,6 +2027,37 @@
         entries.forEach(function(entry) {
           if (entry.isIntersecting) {
             entry.target.classList.add('section-revealed');
+
+            // Stagger reveal for feature cards
+            const cards = entry.target.querySelectorAll('.card-reveal-init');
+            if (cards.length > 0) {
+              cards.forEach(function(card, idx) {
+                setTimeout(function() {
+                  card.classList.add('card-revealed');
+                }, idx * 100); // 100ms staggered cascade flip
+              });
+            }
+
+            // Stagger reveal for workflow steps
+            const steps = entry.target.querySelectorAll('.step-reveal-init');
+            if (steps.length > 0) {
+              steps.forEach(function(step, idx) {
+                setTimeout(function() {
+                  step.classList.add('step-revealed');
+                }, idx * 140); // 140ms sequential horizontal slide
+              });
+            }
+
+            // Stagger split reveal for policy blocks
+            const leftPolicy = entry.target.querySelectorAll('.policy-left-reveal-init');
+            leftPolicy.forEach(function(el) {
+              setTimeout(function() { el.classList.add('policy-revealed'); }, 100);
+            });
+            const rightPolicy = entry.target.querySelectorAll('.policy-right-reveal-init');
+            rightPolicy.forEach(function(el) {
+              setTimeout(function() { el.classList.add('policy-revealed'); }, 250);
+            });
+
             sectionObserver.unobserve(entry.target);
           }
         });
