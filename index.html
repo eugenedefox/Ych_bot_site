@@ -1141,14 +1141,11 @@
       .step {
         position: relative;
         border-radius: var(--radius);
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.06);
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
         padding: 24px;
-        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: all var(--transition);
         overflow: hidden;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
       }
 
       .step::before {
@@ -1158,52 +1155,35 @@
         left: 0;
         width: 4px;
         height: 100%;
-        background: var(--step-color, var(--gradient-main));
+        background: var(--gradient-main);
         border-radius: 4px 0 0 4px;
-        transition: all 0.3s ease;
       }
 
       .step:hover {
-        border-color: var(--step-color);
-        transform: translateY(-5px);
-        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35), 0 0 20px rgba(var(--step-color), 0.12);
-        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(20, 184, 166, 0.2);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
       }
 
       .step-number {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: var(--step-color, var(--accent-1));
+        background: rgba(20, 184, 166, 0.12);
+        border: 1px solid rgba(20, 184, 166, 0.2);
+        color: var(--accent-1);
         font-weight: 800;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         margin-bottom: 14px;
-        transition: all 0.3s ease;
-      }
-
-      .step:hover .step-number {
-        background: var(--step-color);
-        border-color: var(--step-color);
-        color: #10110f;
-        box-shadow: 0 0 15px var(--step-color);
-        transform: scale(1.08);
       }
 
       .step strong {
         display: block;
         margin-bottom: 8px;
         font-size: 1.05rem;
-        color: var(--ink);
-        transition: color 0.3s ease;
-      }
-
-      .step:hover strong {
-        color: var(--step-color);
       }
 
       .step span {
@@ -1843,22 +1823,22 @@
           </div>
 
           <div class="flow">
-            <div class="step" style="--step-color: var(--accent-1);">
+            <div class="step">
               <span class="step-number">1</span>
               <strong>Upload art</strong>
               <span>Send an image to the bot and let it prepare a draft.</span>
             </div>
-            <div class="step" style="--step-color: var(--accent-3);">
+            <div class="step">
               <span class="step-number">2</span>
               <strong>Edit details</strong>
               <span>Adjust title, text, tags, template, and auction link.</span>
             </div>
-            <div class="step" style="--step-color: var(--accent-2);">
+            <div class="step">
               <span class="step-number">3</span>
               <strong>Pick targets</strong>
               <span>Enable only the platforms needed for this post.</span>
             </div>
-            <div class="step" style="--step-color: var(--accent-4);">
+            <div class="step">
               <span class="step-number">4</span>
               <strong>Publish</strong>
               <span>Send the final post after checking the preview.</span>
