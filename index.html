@@ -511,18 +511,70 @@
 
       /* ── Platform beam map ── */
       .platform-section {
+        position: relative;
         display: grid;
         grid-template-columns: minmax(0, 0.86fr) minmax(0, 1fr);
         gap: 44px;
         align-items: center;
+        overflow: visible;
+      }
+
+      /* floating ambient particles behind the section */
+      .platform-section::before {
+        content: '';
+        position: absolute;
+        top: -80px;
+        right: -120px;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(20, 184, 166, 0.07) 0%, transparent 70%);
+        pointer-events: none;
+        animation: float-orb-1 8s ease-in-out infinite alternate;
+      }
+
+      .platform-section::after {
+        content: '';
+        position: absolute;
+        bottom: -60px;
+        left: -100px;
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(245, 158, 11, 0.05) 0%, transparent 70%);
+        pointer-events: none;
+        animation: float-orb-2 10s ease-in-out infinite alternate;
+      }
+
+      @keyframes float-orb-1 {
+        from { transform: translate(0, 0) scale(1); }
+        to   { transform: translate(-30px, 20px) scale(1.1); }
+      }
+
+      @keyframes float-orb-2 {
+        from { transform: translate(0, 0) scale(1); }
+        to   { transform: translate(20px, -30px) scale(1.15); }
       }
 
       .platform-copy {
+        position: relative;
+        z-index: 1;
         max-width: 520px;
       }
 
       .platform-copy h2 {
         max-width: 620px;
+        background: linear-gradient(135deg, #f0f1e8 0%, #5eead4 40%, #38bdf8 60%, #f0f1e8 100%);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradient-shift 6s ease-in-out infinite;
+      }
+
+      @keyframes gradient-shift {
+        0%, 100% { background-position: 0% 50%; }
+        50%      { background-position: 100% 50%; }
       }
 
       .platform-copy p {
@@ -532,41 +584,141 @@
         line-height: 1.72;
       }
 
-      .platform-points {
-        display: grid;
-        gap: 12px;
+      /* ── Stats counters ── */
+      .platform-stats {
+        display: flex;
+        gap: 14px;
         margin-top: 28px;
       }
 
-      .platform-points span {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        color: var(--muted);
-        line-height: 1.55;
+      .stat-card {
+        flex: 1;
+        padding: 18px 16px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0;
+        transform: translateY(20px);
       }
 
-      .platform-points strong {
+      .stat-card.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .stat-card:hover {
+        border-color: rgba(20, 184, 166, 0.25);
+        background: rgba(20, 184, 166, 0.06);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(20, 184, 166, 0.12);
+      }
+
+      .stat-value {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 1.8rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.2;
+      }
+
+      .stat-label {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-family: var(--font-mono);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      /* ── Animated platform points ── */
+      .platform-points {
+        display: grid;
+        gap: 0;
+        margin-top: 22px;
+      }
+
+      .platform-point-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 18px;
+        border-radius: 14px;
+        color: var(--muted);
+        line-height: 1.55;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0;
+        transform: translateX(-30px);
+        cursor: default;
+      }
+
+      .platform-point-item.revealed {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .platform-point-item:hover {
+        background: rgba(20, 184, 166, 0.05);
+        transform: translateX(6px);
+      }
+
+      .point-number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: rgba(20, 184, 166, 0.1);
+        border: 1px solid rgba(20, 184, 166, 0.2);
+        color: var(--accent-1);
+        font-family: var(--font-mono);
+        font-weight: 800;
+        font-size: 0.85rem;
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .platform-point-item:hover .point-number {
+        background: rgba(20, 184, 166, 0.18);
+        box-shadow: 0 0 18px rgba(20, 184, 166, 0.25);
+        transform: scale(1.08);
+      }
+
+      .point-text strong {
         color: var(--ink);
       }
 
+      /* ── Beam map ── */
       .beam-map {
         --outer-radius: clamp(138px, 16vw, 188px);
         --inner-radius: clamp(92px, 11vw, 128px);
         position: relative;
+        z-index: 1;
         justify-self: center;
         display: grid;
         width: min(100%, 540px);
         aspect-ratio: 1;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 28px;
-        background:
-          radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.14), transparent 34%),
-          radial-gradient(circle at 18% 20%, rgba(56, 189, 248, 0.08), transparent 25%),
-          rgba(255, 255, 255, 0.025);
+        border: none;
+        background: transparent;
         contain: layout paint;
-        overflow: clip;
-        animation: platform-reveal 760ms cubic-bezier(.22, 1, .36, 1) both;
+        overflow: visible;
+        opacity: 0;
+        transform: translateY(24px) scale(0.95);
+        transition: opacity 0.8s cubic-bezier(.22, 1, .36, 1), transform 0.8s cubic-bezier(.22, 1, .36, 1);
+      }
+
+      .beam-map.revealed {
+        opacity: 1;
+        transform: translateY(0) scale(1);
       }
 
       .orbit-stage {
@@ -596,9 +748,28 @@
         left: 50%;
         width: calc(var(--radius) * 2);
         height: calc(var(--radius) * 2);
-        border: 1px solid rgba(202, 255, 244, 0.14);
+        border: 1px dashed rgba(202, 255, 244, 0.12);
         border-radius: 50%;
         transform: translate(-50%, -50%);
+      }
+
+      /* pulsing ring glow on orbit tracks */
+      .orbit-ring::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: calc(var(--radius) * 2 + 8px);
+        height: calc(var(--radius) * 2 + 8px);
+        border: 1px solid rgba(20, 184, 166, 0.06);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        animation: ring-pulse 3s ease-in-out infinite;
+      }
+
+      @keyframes ring-pulse {
+        0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+        50%      { opacity: 0.8; transform: translate(-50%, -50%) scale(1.02); }
       }
 
       .orbit-outer {
@@ -613,7 +784,12 @@
       }
 
       .orbit-inner::before {
-        border-color: rgba(56, 189, 248, 0.12);
+        border-color: rgba(56, 189, 248, 0.1);
+      }
+
+      .orbit-inner::after {
+        border-color: rgba(56, 189, 248, 0.05);
+        animation-delay: -1.5s;
       }
 
       .orbit-item {
@@ -644,8 +820,25 @@
       }
 
       .orbit-node:hover .node-icon {
-        transform: translateY(-3px) scale(1.08);
-        box-shadow: 0 18px 42px rgba(20, 184, 166, 0.24);
+        transform: translateY(-3px) scale(1.12);
+        box-shadow:
+          0 18px 42px rgba(20, 184, 166, 0.28),
+          0 0 24px rgba(20, 184, 166, 0.2);
+      }
+
+      /* energy ring on hover */
+      .orbit-node:hover .node-icon::after {
+        content: '';
+        position: absolute;
+        inset: -6px;
+        border-radius: 50%;
+        border: 2px solid rgba(20, 184, 166, 0.4);
+        animation: energy-ring 0.6s ease-out forwards;
+      }
+
+      @keyframes energy-ring {
+        from { transform: scale(0.8); opacity: 1; }
+        to   { transform: scale(1.4); opacity: 0; }
       }
 
       @keyframes orbit-spin {
@@ -660,25 +853,36 @@
         }
       }
 
-      @keyframes platform-reveal {
-        from {
-          opacity: 0;
-          transform: translateY(18px) scale(0.96);
-        }
-
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-      }
-
       .orbit-glow {
         position: absolute;
         inset: 18%;
         z-index: 0;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(20, 184, 166, 0.16), transparent 64%);
+        background: radial-gradient(circle, rgba(20, 184, 166, 0.18), transparent 64%);
         pointer-events: none;
+        animation: glow-breathe 4s ease-in-out infinite;
+      }
+
+      @keyframes glow-breathe {
+        0%, 100% { opacity: 0.6; transform: scale(1); }
+        50%      { opacity: 1; transform: scale(1.08); }
+      }
+
+      /* ── Orbit Particles moving perfectly along paths ── */
+      .orbit-particle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--color, var(--accent-1));
+        box-shadow: 
+          0 0 10px var(--color, var(--accent-1)),
+          0 0 20px var(--color, var(--accent-1));
+        transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--radius));
+        pointer-events: none;
+        opacity: 0.85;
       }
 
       .beam-lines {
@@ -750,6 +954,7 @@
         place-items: center;
         border-radius: 999px;
         box-shadow: 0 18px 38px rgba(0, 0, 0, 0.26);
+        position: relative;
       }
 
       .node-icon {
@@ -757,7 +962,7 @@
         height: 54px;
         overflow: hidden;
         border-radius: 50%;
-        transition: transform var(--transition), box-shadow var(--transition);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       .node-icon img {
@@ -783,6 +988,22 @@
           0 0 34px rgba(20, 184, 166, 0.18);
       }
 
+      /* bot-node breathing glow */
+      .bot-node::after {
+        content: '';
+        position: absolute;
+        inset: -12px;
+        border-radius: 50%;
+        border: 2px solid rgba(20, 184, 166, 0.12);
+        animation: bot-pulse 2.5s ease-in-out infinite;
+        pointer-events: none;
+      }
+
+      @keyframes bot-pulse {
+        0%, 100% { transform: scale(1); opacity: 0.4; }
+        50%      { transform: scale(1.15); opacity: 0; }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         .beam-map,
         .orbit-ring,
@@ -793,6 +1014,27 @@
         .orbit-node,
         .orbit-inner .orbit-node {
           transform: translate(-50%, -50%) rotate(var(--counter-start));
+        }
+
+        .platform-copy h2 {
+          animation: none;
+        }
+
+        .orbit-glow,
+        .orbit-ring::after,
+        .bot-node::after {
+          animation: none;
+        }
+
+        .stat-card,
+        .platform-point-item {
+          opacity: 1;
+          transform: none;
+        }
+
+        .beam-map {
+          opacity: 1;
+          transform: none;
         }
       }
 
@@ -899,11 +1141,14 @@
       .step {
         position: relative;
         border-radius: var(--radius);
-        background: var(--glass);
-        border: 1px solid var(--glass-border);
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.06);
         padding: 24px;
-        transition: all var(--transition);
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         overflow: hidden;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
       }
 
       .step::before {
@@ -913,35 +1158,52 @@
         left: 0;
         width: 4px;
         height: 100%;
-        background: var(--gradient-main);
+        background: var(--step-color, var(--gradient-main));
         border-radius: 4px 0 0 4px;
+        transition: all 0.3s ease;
       }
 
       .step:hover {
-        border-color: rgba(20, 184, 166, 0.2);
-        transform: translateY(-3px);
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+        border-color: var(--step-color);
+        transform: translateY(-5px);
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35), 0 0 20px rgba(var(--step-color), 0.12);
+        background: rgba(255, 255, 255, 0.05);
       }
 
       .step-number {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         border-radius: 50%;
-        background: rgba(20, 184, 166, 0.12);
-        border: 1px solid rgba(20, 184, 166, 0.2);
-        color: var(--accent-1);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--step-color, var(--accent-1));
         font-weight: 800;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         margin-bottom: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .step:hover .step-number {
+        background: var(--step-color);
+        border-color: var(--step-color);
+        color: #10110f;
+        box-shadow: 0 0 15px var(--step-color);
+        transform: scale(1.08);
       }
 
       .step strong {
         display: block;
         margin-bottom: 8px;
         font-size: 1.05rem;
+        color: var(--ink);
+        transition: color 0.3s ease;
+      }
+
+      .step:hover strong {
+        color: var(--step-color);
       }
 
       .step span {
@@ -1107,6 +1369,8 @@
 
         .beam-map {
           width: min(100%, 500px);
+          opacity: 1;
+          transform: none;
         }
 
         footer {
@@ -1235,11 +1499,31 @@
           font-size: 0.96rem;
         }
 
+        .platform-stats {
+          gap: 10px;
+        }
+
+        .stat-card {
+          padding: 14px 10px;
+        }
+
+        .stat-value {
+          font-size: 1.4rem;
+        }
+
+        .stat-label {
+          font-size: 0.7rem;
+        }
+
         .beam-map {
           width: min(100%, 360px);
           aspect-ratio: auto;
           padding: 18px;
-          overflow: clip;
+          overflow: visible;
+          border: none;
+          background: transparent;
+          opacity: 1;
+          transform: none;
         }
 
         .orbit-stage {
@@ -1280,6 +1564,21 @@
           height: 46px;
           font-size: 0.76rem;
         }
+      }
+
+      /* ── Section Scroll Transitions ── */
+      .section-reveal-init {
+        opacity: 0;
+        transform: translateY(40px);
+        filter: blur(10px);
+        transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                    filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .section-revealed {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
       }
     </style>
   </head>
@@ -1360,7 +1659,7 @@
         </section>
 
         <section id="platforms" class="platform-section" aria-labelledby="platforms-title">
-          <div class="platform-copy">
+          <div class="platform-copy" data-reveal="copy">
             <p class="section-label">✦ Social posting hub</p>
             <h2 id="platforms-title">Spend less time managing social posts.</h2>
             <p>
@@ -1369,17 +1668,47 @@
               so the same artwork, tags, auction link, and final text can be prepared once and sent
               to the places where your audience already follows you.
             </p>
+
+            <div class="platform-stats" aria-label="Platform statistics">
+              <div class="stat-card" data-reveal="stat" data-delay="0">
+                <span class="stat-value" data-count="6">0</span>
+                <span class="stat-label">Platforms</span>
+              </div>
+              <div class="stat-card" data-reveal="stat" data-delay="120">
+                <span class="stat-value" data-count="1">0</span>
+                <span class="stat-label">Upload</span>
+              </div>
+              <div class="stat-card" data-reveal="stat" data-delay="240">
+                <span class="stat-value" data-count="0">0</span>
+                <span class="stat-label">Hassle</span>
+              </div>
+            </div>
+
             <div class="platform-points" aria-label="Platform workflow benefits">
-              <span><strong>01</strong> Prepare the post once instead of rebuilding it in every app.</span>
-              <span><strong>02</strong> Keep auction links, tags, and publishing choices visible before posting.</span>
-              <span><strong>03</strong> Use saved connections while the bot handles the repetitive platform work.</span>
+              <div class="platform-point-item" data-reveal="point" data-delay="0">
+                <span class="point-number">01</span>
+                <span class="point-text"><strong>Prepare once</strong> — build the post one time instead of recreating it in every app.</span>
+              </div>
+              <div class="platform-point-item" data-reveal="point" data-delay="140">
+                <span class="point-number">02</span>
+                <span class="point-text"><strong>Full visibility</strong> — auction links, tags, and publishing choices shown before posting.</span>
+              </div>
+              <div class="platform-point-item" data-reveal="point" data-delay="280">
+                <span class="point-number">03</span>
+                <span class="point-text"><strong>Saved connections</strong> — the bot handles the repetitive platform work for you.</span>
+              </div>
             </div>
           </div>
 
-          <div class="beam-map orbit-map" aria-label="Connected social platforms around YCH Commishes Bot">
+          <div class="beam-map orbit-map" data-reveal="map" aria-label="Connected social platforms around YCH Commishes Bot">
             <div class="orbit-stage">
               <span class="orbit-glow" aria-hidden="true"></span>
               <div class="orbit-ring orbit-outer" aria-hidden="true">
+                <!-- Circular Orbiting Particles Outer -->
+                <div class="orbit-particle" style="--angle: 70deg; --color: var(--accent-1);"></div>
+                <div class="orbit-particle" style="--angle: 190deg; --color: var(--accent-3);"></div>
+                <div class="orbit-particle" style="--angle: 310deg; --color: var(--accent-2);"></div>
+
                 <div class="orbit-item" style="--angle: 18deg;">
                   <div class="platform-node orbit-node" style="--counter-start: -18deg; --counter-end: -378deg;">
                     <span class="node-icon"><img src="assets/social/instagram.png" alt="" /></span>
@@ -1400,6 +1729,11 @@
                 </div>
               </div>
               <div class="orbit-ring orbit-inner" aria-hidden="true">
+                <!-- Circular Orbiting Particles Inner -->
+                <div class="orbit-particle" style="--angle: 120deg; --color: var(--accent-3);"></div>
+                <div class="orbit-particle" style="--angle: 240deg; --color: var(--accent-1);"></div>
+                <div class="orbit-particle" style="--angle: 350deg; --color: var(--accent-2);"></div>
+
                 <div class="orbit-item" style="--angle: 68deg;">
                   <div class="platform-node orbit-node" style="--counter-start: -68deg; --counter-end: -428deg;">
                     <span class="node-icon"><img src="assets/social/deviantart.png" alt="" /></span>
@@ -1509,22 +1843,22 @@
           </div>
 
           <div class="flow">
-            <div class="step">
+            <div class="step" style="--step-color: var(--accent-1);">
               <span class="step-number">1</span>
               <strong>Upload art</strong>
               <span>Send an image to the bot and let it prepare a draft.</span>
             </div>
-            <div class="step">
+            <div class="step" style="--step-color: var(--accent-3);">
               <span class="step-number">2</span>
               <strong>Edit details</strong>
               <span>Adjust title, text, tags, template, and auction link.</span>
             </div>
-            <div class="step">
+            <div class="step" style="--step-color: var(--accent-2);">
               <span class="step-number">3</span>
               <strong>Pick targets</strong>
               <span>Enable only the platforms needed for this post.</span>
             </div>
-            <div class="step">
+            <div class="step" style="--step-color: var(--accent-4);">
               <span class="step-number">4</span>
               <strong>Publish</strong>
               <span>Send the final post after checking the preview.</span>
@@ -1639,5 +1973,95 @@
         </div>
       </footer>
     </div>
+
+    <!-- ── Social posting hub & universal animations ── -->
+    <script>
+    (function() {
+      'use strict';
+
+      // ── Section Entrance Reveal Transitions ──
+      const sections = document.querySelectorAll('main > section');
+      const sectionObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('section-revealed');
+            sectionObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.08,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      sections.forEach(function(sec) {
+        sec.classList.add('section-reveal-init');
+        sectionObserver.observe(sec);
+      });
+
+      // ── IntersectionObserver for staggered reveals inside Platform Section ──
+      const platformSection = document.getElementById('platforms');
+      if (!platformSection) return;
+
+      // Animated counter for stat values
+      function animateCounter(el, target, duration) {
+        const start = 0;
+        const startTime = performance.now();
+        function step(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // easeOutExpo
+          const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+          el.textContent = Math.round(start + (target - start) * eased);
+          if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+
+      // Reveal elements with stagger inside platforms
+      const platformObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (!entry.isIntersecting) return;
+
+          // Stat cards
+          const stats = entry.target.querySelectorAll('[data-reveal="stat"]');
+          stats.forEach(function(stat, i) {
+            const delay = parseInt(stat.getAttribute('data-delay') || '0', 10);
+            setTimeout(function() {
+              stat.classList.add('revealed');
+              const valEl = stat.querySelector('.stat-value');
+              if (valEl) {
+                const target = parseInt(valEl.getAttribute('data-count') || '0', 10);
+                animateCounter(valEl, target, 1200);
+              }
+            }, delay + 200);
+          });
+
+          // Platform points
+          const points = entry.target.querySelectorAll('[data-reveal="point"]');
+          points.forEach(function(point) {
+            const delay = parseInt(point.getAttribute('data-delay') || '0', 10);
+            setTimeout(function() {
+              point.classList.add('revealed');
+            }, delay + 500);
+          });
+
+          // Beam map
+          const map = entry.target.querySelector('[data-reveal="map"]');
+          if (map) {
+            setTimeout(function() {
+              map.classList.add('revealed');
+            }, 300);
+          }
+
+          platformObserver.unobserve(entry.target);
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -60px 0px'
+      });
+
+      platformObserver.observe(platformSection);
+    })();
+    </script>
   </body>
 </html>
